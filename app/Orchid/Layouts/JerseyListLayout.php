@@ -21,21 +21,45 @@ class JerseyListLayout extends Table
      * @return TD[]
      */
     public function columns(): array
-    {
-        return [
-            TD::make('first_name')
-                ->sort()
-                ->filter(Input::make())
-                ->render(function (Jersey $jersey) {
-                    return Link::make($jersey->first_name)
-                        ->route('platform.jersey.edit', $jersey);
-                }),
+{
+    return [
+        $this->generateColumn('first_name', 'First Name'),
+        $this->generateColumn('last_name', 'Last Name'),
+        $this->generateColumn('email', 'Email'),
+        $this->generateColumn('mobile_number', 'Contact'),
+        $this->generateColumn('jersey_size', 'Jersey Size', 'jersey_specifications'),
+        $this->generateColumn('material_choice', 'Material', 'jersey_specifications'),
+        $this->generateColumn('number', 'Number', 'jersey_specifications'),
+        TD::make('created_at', 'Created')
+            ->sort()
+            ->render(fn(Jersey $jersey) => $jersey->created_at->format('Y-m-d H:i')),
+        TD::make('updated_at', 'Last Edit')
+            ->sort()
+            ->render(fn(Jersey $jersey) => $jersey->updated_at->format('Y-m-d H:i')),
+    ];
+}
 
-            TD::make('created_at', 'Created')
-                ->sort(),
+private function generateColumn(string $field, string $label, string $jsonField = 'personal_info'): TD
+{
+    return TD::make($field, $label)
+        ->sort()
+        ->filter(Input::make())
+        ->render(function (Jersey $jersey) use ($field, $jsonField) {
+            $singleValue = $jersey->$field;
 
-            TD::make('updated_at', 'Last edit')
-                ->sort(),
-        ];
-    }
+            if ($singleValue) {
+                return Link::make($singleValue)->route('platform.jersey.edit', $jersey);
+            }
+
+            $jsonData = json_decode($jersey->$jsonField, true);
+
+            if ($jsonData) {
+                $values = array_column($jsonData, $field);
+                return Link::make(implode(', ', $values))->route('platform.jersey.edit', $jersey);
+            }
+
+            return '-';
+        });
+}
+
 }

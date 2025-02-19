@@ -182,17 +182,13 @@ class JerseyController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            // Personal Information (Allow Multiple Entries)
-            'first_name' => 'array',
-            'first_name.*' => 'string|max:15|nullable',
-            'last_name' => 'array',
-            'last_name.*' => 'string|max:255|nullable',
-            'email' => 'array',
-            'email.*' => 'email|max:255|nullable',
-            'mobile_number' => 'array',
-            'mobile_number.*' => 'string|max:15|nullable',
+            // Personal Information
+            'first_name' => 'string|max:15|nullable',
+            'last_name' => 'string|max:255|nullable',
+            'email' => 'email|max:255|nullable',
+            'mobile_number' => 'string|max:15|nullable',
 
-            // Jersey Specifications (Allow Multiple Entries)
+            // Jersey Specifications
             'jersey_size' => 'array',
             'jersey_size.*' => 'string|max:10|nullable',
             'material_choice' => 'array',
@@ -201,6 +197,8 @@ class JerseyController extends Controller
             'sleeves.*' => 'string|max:10|nullable',
             'number' => 'array',
             'number.*' => 'integer|nullable',
+            'name' => 'array', // Independent name field
+            // 'name.*' => 'string|max:255|nullable',
 
             // Additional Fields
             'left_chest_logo_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
@@ -222,79 +220,49 @@ class JerseyController extends Controller
                 ? $request->file('right_chest_logo_image')->store('logos', 'public')
                 : null;
 
-            // Check if only one record is entered
-            if (count($validatedData['first_name']) == 1) {
-                $jersey = Jersey::create([
-                    'first_name' => $validatedData['first_name'][0] ?? null,
-                    'last_name' => $validatedData['last_name'][0] ?? null,
-                    'email' => $validatedData['email'][0] ?? null,
-                    'mobile_number' => $validatedData['mobile_number'][0] ?? null,
-                    'jersey_size' => $validatedData['jersey_size'][0] ?? null,
-                    'material_choice' => $validatedData['material_choice'][0] ?? null,
-                    'sleeves' => $validatedData['sleeves'][0] ?? null,
-                    'number' => $validatedData['number'][0] ?? null,
-                    'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
-                    'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
-                    'left_logo' => $validatedData['left_logo'],
-                    'right_logo' => $validatedData['right_logo'],
-                    'team_name' => $validatedData['team_name'],
-                    'patterns' => $validatedData['patterns'],
-                    'special_instructions' => $validatedData['special_instructions'],
-                    'personal_info' => null, // Not needed for a single entry
-                    'jersey_specifications' => null, // Not needed for a single entry
-                ]);
-            } else {
-                // Convert multiple records to JSON
-                $personalInfo = [];
-                foreach ($validatedData['first_name'] ?? [] as $index => $firstName) {
-                    $personalInfo[] = [
-                        'first_name' => $firstName,
-                        'last_name' => $validatedData['last_name'][$index] ?? null,
-                        'email' => $validatedData['email'][$index] ?? null,
-                        'mobile_number' => $validatedData['mobile_number'][$index] ?? null,
-                    ];
-                }
-                $personalInfoJson = json_encode($personalInfo);
-
-                $jerseySpecs = [];
-                foreach ($validatedData['jersey_size'] ?? [] as $index => $size) {
-                    $jerseySpecs[] = [
-                        'jersey_size' => $size,
-                        'material_choice' => $validatedData['material_choice'][$index] ?? null,
-                        'sleeves' => $validatedData['sleeves'][$index] ?? null,
-                        'number' => $validatedData['number'][$index] ?? null,
-                    ];
-                }
-                $jerseySpecsJson = json_encode($jerseySpecs);
-
-                $jersey = Jersey::create([
-                    'first_name' => null, // Not needed for multiple entries
-                    'last_name' => null,
-                    'email' => null,
-                    'mobile_number' => null,
-                    'jersey_size' => null,
-                    'material_choice' => null,
-                    'sleeves' => null,
-                    'number' => null,
-                    'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
-                    'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
-                    'left_logo' => $validatedData['left_logo'],
-                    'right_logo' => $validatedData['right_logo'],
-                    'team_name' => $validatedData['team_name'],
-                    'patterns' => $validatedData['patterns'],
-                    'special_instructions' => $validatedData['special_instructions'],
-                    'personal_info' => $personalInfoJson,
-                    'jersey_specifications' => $jerseySpecsJson,
-                ]);
+            // Convert multiple jersey specifications to JSON
+            $jerseySpecs = [];
+            foreach ($validatedData['jersey_size'] ?? [] as $index => $size) {
+                $jerseySpecs[] = [
+                    'name' => $validatedData['name'][$index] ?? null, // Independent name field
+                    'jersey_size' => $size,
+                    'material_choice' => $validatedData['material_choice'][$index] ?? null,
+                    'sleeves' => $validatedData['sleeves'][$index] ?? null,
+                    'number' => $validatedData['number'][$index] ?? null,
+                ];
             }
+            $jerseySpecsJson = json_encode($jerseySpecs);
 
+            // Store the data
+            $jersey = Jersey::create([
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'email' => $validatedData['email'],
+                'mobile_number' => $validatedData['mobile_number'],
+                'jersey_size' => null, // Stored in JSON
+                'material_choice' => null, // Stored in JSON
+                'sleeves' => null, // Stored in JSON
+                'number' => null, // Stored in JSON
+                'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
+                'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
+                'left_logo' => $validatedData['left_logo'],
+                'right_logo' => $validatedData['right_logo'],
+                'team_name' => $validatedData['team_name'],
+                'patterns' => $validatedData['patterns'],
+                'special_instructions' => $validatedData['special_instructions'],
+                'jersey_specifications' => $jerseySpecsJson, // Store JSON with independent name field
+            ]);
+
+            // Send email with PDF attachment
             $pdf = Pdf::loadView('emails.jersey_form_mail', ['jersey' => $jersey]);
             Mail::to('24riyavaidya@gmail.com')->send(new JerseyFormMail($jersey, $pdf));
+
             return redirect()->route('jersey')->with('success', 'Your Jersey order has been submitted successfully!');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong. Please try again.');
         }
     }
+
 
 
 

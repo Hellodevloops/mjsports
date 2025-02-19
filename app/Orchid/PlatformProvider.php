@@ -117,10 +117,10 @@ class PlatformProvider extends OrchidServiceProvider
             //     ->icon('bs.server')
             //     ->route('platform.product.list')
             //     ->badge(fn () =>  $productcount),
-            // Menu::make('Custom Jersey')
-            //     ->icon('bs.plus')
-            //     ->route('platform.jersey.list')
-            //     ->badge(fn () =>  $jerseycount),
+            Menu::make('Custom Jersey')
+                ->icon('bs.plus')
+                ->route('platform.jersey.list')
+                ->badge(fn () =>  $jerseycount),
             // Menu::make('Service')
             //     ->icon('bs.layers')
             //     ->route('platform.service.list')

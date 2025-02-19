@@ -328,61 +328,62 @@
 
             <!-- Personal Information Section -->
            <!-- Personal Information Section -->
-                    <div class="container">
-                    <div class="card p-4 shadow-sm">
-                        <h3 class="section-header">Personal Information</h3>
+           <div class="container">
+            <div class="card p-4 shadow-sm">
+                <h3 class="section-header">Personal Information</h3>
 
-                        <div id="personal-info-section">
-                            <div class="row g-4 personal-entry">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
-                                        <input type="text" class="form-control hover-lift" name="first_name[]"
-                                            value="{{ old('first_name.0') }}" placeholder="Enter your first name" required>
-                                        @error('first_name.*')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
-                                        <input type="text" class="form-control hover-lift" name="last_name[]"
-                                            value="{{ old('last_name.0') }}" placeholder="Enter your last name" required>
-                                        @error('last_name.*')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
-                                        <input type="email" class="form-control hover-lift" name="email[]"
-                                            value="{{ old('email.0') }}" placeholder="your@email.com" required>
-                                        @error('email.*')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
-                                        <input type="tel" class="form-control hover-lift" name="mobile_number[]"
-                                            value="{{ old('mobile_number.0') }}" placeholder="Enter your mobile number" required>
-                                        @error('mobile_number.*')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                <div id="personal-info-section">
+                    <div class="row g-4 personal-entry">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
+                                <input type="text" class="form-control hover-lift" name="first_name"
+                                    value="{{ old('first_name') }}" placeholder="Enter your first name" required>
+                                @error('first_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
-
-                        <!-- Add More Personal Info Button -->
-                        <button type="button" class="btn btn-outline-primary mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addPersonalInfo()">
-                            <i class="fas fa-user-plus me-2"></i> Add More Personal Info
-                        </button>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
+                                <input type="text" class="form-control hover-lift" name="last_name"
+                                    value="{{ old('last_name') }}" placeholder="Enter your last name" required>
+                                @error('last_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
+                                <input type="email" class="form-control hover-lift" name="email"
+                                    value="{{ old('email') }}" placeholder="your@email.com" required>
+                                @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
+                                <input type="tel" class="form-control hover-lift" name="mobile_number"
+                                    value="{{ old('mobile_number') }}" placeholder="Enter your mobile number" required>
+                                @error('mobile_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Add More Personal Info Button -->
+                {{-- <button type="button" class="btn btn-outline-primary mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addPersonalInfo()">
+                    <i class="fas fa-user-plus me-2"></i> Add More Personal Info
+                </button> --}}
+            </div>
+        </div>
+
 
             <!-- Jersey Details Section -->
             <div class="container">
@@ -390,9 +391,18 @@
                     <h3 class="section-header">Jersey Specifications</h3>
 
                     <div id="jersey-specifications">
-                        <div class="row g-4 jersey-entry">
-                            <div class="col-md-4">
-                                <div class="form-group">
+                        <div class="row g-3 jersey-entry align-items-end">
+                            <div class="col-md-3">
+                                <div class="form-group px-2 py-2">
+                                    <label class="form-label">
+                                        <i class="fas fa-user form-icon"></i> Name
+                                    </label>
+                                    <input type="text" class="form-control hover-lift" name="jersey_name[]" placeholder="Enter Name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group px-2 py-2">
                                     <label class="form-label">
                                         <i class="fas fa-ruler form-icon"></i> Jersey Size
                                     </label>
@@ -405,8 +415,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="form-group px-2 py-2">
                                     <label class="form-label">
                                         <i class="fas fa-tshirt form-icon"></i> Material Choice
                                     </label>
@@ -419,7 +429,7 @@
                             </div>
 
                             <div class="col-md-2">
-                                <div class="form-group">
+                                <div class="form-group px-2 py-2">
                                     <label class="form-label">
                                         <i class="fas fa-tshirt form-icon"></i> Sleeves
                                     </label>
@@ -430,8 +440,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
-                                <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="form-group px-2 py-2">
                                     <label class="form-label">
                                         <i class="fas fa-sort-numeric-up form-icon"></i> Number
                                     </label>
@@ -441,12 +451,11 @@
                         </div>
                     </div>
 
-                    <!-- Add More Jersey Button -->
                     <button type="button" class="btn btn-outline-success mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addJerseySpec()">
                         <i class="fas fa-tshirt me-2"></i> Add More Jersey
                     </button>
-
                 </div>
+
 
                 <!-- Logo Upload Section -->
                 <div class="card p-4 mt-4 shadow-sm">
@@ -517,7 +526,7 @@
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-shapes form-icon"></i> Choose Your Pattern
-                        <a href="{{ asset('jersey.pdf') }}" target="_blank">(View Patterns)</a>
+                        <a href="{{ asset('almighty.pdf') }}" target="_blank">(View Patterns)</a>
                     </label>
                     <input type="text" class="form-control hover-lift" name="patterns"
                         value="{{ old('patterns') }}" placeholder="Input the pattern number here">
@@ -668,53 +677,66 @@
             doc.save('order-details.pdf');
         }
     </script>
-        <script>
-            function downloadFormData() {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+       <script>
+        function downloadFormData() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-                let y = 20; // Start position for text
+            let marginX = 15; // Left margin
+            let y = 20; // Initial vertical position
 
-                // 🔹 Add Header Title
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(22);
-                doc.text("Jersey Order Details", 70, y);
-                doc.setLineWidth(0.5);
-                doc.line(20, y + 5, 190, y + 5); // Underline
-                y += 15;
+            // 🔹 Add Document Header
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("Jersey Order Details", 105, y, { align: "center" });
+            doc.setLineWidth(0.5);
+            doc.line(15, y + 5, 195, y + 5); // Underline
+            y += 15;
 
-                // 🔹 Extract Form Data
-                let formData = [];
+            // 🔹 Extract Form Data
+            let formData = [];
 
-                document.querySelectorAll("#order-form input, #order-form select, #order-form textarea").forEach(input => {
-                    if (input.type !== "hidden") {
-                        formData.push({ name: input.name, value: input.value || "N/A" });
-                    }
-                });
+            document.querySelectorAll("#order-form input, #order-form select, #order-form textarea").forEach(input => {
+                if (input.type !== "hidden") {
+                    formData.push({ name: input.name.replace(/_/g, " "), value: input.value || "N/A" });
+                }
+            });
 
-                // 🔹 Table Styling
-                let startX = 20;
-                let colWidth = 80;
-                let rowHeight = 8;
-                doc.setFontSize(12);
+            // 🔹 Table Styling
+            let colWidths = [60, 120]; // Column widths
+            let rowHeight = 8;
+            let tableStartY = y;
 
-                formData.forEach((item, index) => {
-                    let xPos = startX;
-                    let yPos = y + (index * rowHeight);
+            // 🔹 Table Header
+            doc.setFont("helvetica", "bold");
+            doc.setFillColor(230, 230, 230); // Light gray background
+            doc.rect(marginX, tableStartY, colWidths[0], rowHeight, "F"); // Field Name Column
+            doc.rect(marginX + colWidths[0], tableStartY, colWidths[1], rowHeight, "F"); // Value Column
+            doc.text("Field", marginX + 5, tableStartY + 5);
+            doc.text("Value", marginX + colWidths[0] + 5, tableStartY + 5);
+            y += rowHeight;
 
-                    // 🔹 Add Field Name
-                    doc.setFont("helvetica", "bold");
-                    doc.text(`${item.name.replace(/_/g, " ")}:`, xPos, yPos);
+            // 🔹 Table Content
+            doc.setFont("helvetica", "normal");
+            formData.forEach((item, index) => {
+                let rowY = y + (index * rowHeight);
 
-                    // 🔹 Add Field Value
-                    doc.setFont("helvetica", "normal");
-                    doc.text(item.value, xPos + colWidth, yPos);
-                });
+                // Add table borders
+                doc.rect(marginX, rowY, colWidths[0], rowHeight);
+                doc.rect(marginX + colWidths[0], rowY, colWidths[1], rowHeight);
 
-                // 🔹 Save as PDF
-                doc.save("Jersey_Details.pdf");
-            }
-        </script>
+                // Add Field Name
+                doc.text(item.name, marginX + 5, rowY + 5);
+
+                // Add Field Value
+                doc.text(item.value, marginX + colWidths[0] + 5, rowY + 5);
+            });
+
+            // 🔹 Save as PDF
+            doc.save("Jersey_Order_Details.pdf");
+        }
+    </script>
+
     <script>
         function triggerFileInput(inputId) {
             document.getElementById(inputId).click();
@@ -828,46 +850,52 @@
         });
     </script>
    <script>
-    function addPersonalInfo() {
-        let newPersonalEntry = document.createElement("div");
-        newPersonalEntry.classList.add("row", "g-4", "personal-entry");
-        newPersonalEntry.innerHTML = `
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
-                    <input type="text" class="form-control hover-lift" name="first_name[]"
-                        placeholder="Enter your first name" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
-                    <input type="text" class="form-control hover-lift" name="last_name[]"
-                        placeholder="Enter your last name" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
-                    <input type="email" class="form-control hover-lift" name="email[]"
-                        placeholder="your@email.com" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
-                    <input type="tel" class="form-control hover-lift" name="mobile_number[]"
-                        placeholder="Enter your mobile number" required>
-                </div>
-            </div>
-        `;
-        document.getElementById("personal-info-section").appendChild(newPersonalEntry);
-    }
+    // function addPersonalInfo() {
+    //     let newPersonalEntry = document.createElement("div");
+    //     newPersonalEntry.classList.add("row", "g-4", "personal-entry");
+    //     newPersonalEntry.innerHTML = `
+    //         <div class="col-md-6">
+    //             <div class="form-group">
+    //                 <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
+    //                 <input type="text" class="form-control hover-lift" name="first_name[]"
+    //                     placeholder="Enter your first name" required>
+    //             </div>
+    //         </div>
+    //         <div class="col-md-6">
+    //             <div class="form-group">
+    //                 <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
+    //                 <input type="text" class="form-control hover-lift" name="last_name[]"
+    //                     placeholder="Enter your last name" required>
+    //             </div>
+    //         </div>
+    //         <div class="col-md-6">
+    //             <div class="form-group">
+    //                 <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
+    //                 <input type="email" class="form-control hover-lift" name="email[]"
+    //                     placeholder="your@email.com" required>
+    //             </div>
+    //         </div>
+    //         <div class="col-md-6">
+    //             <div class="form-group">
+    //                 <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
+    //                 <input type="tel" class="form-control hover-lift" name="mobile_number[]"
+    //                     placeholder="Enter your mobile number" required>
+    //             </div>
+    //         </div>
+    //     `;
+    //     document.getElementById("personal-info-section").appendChild(newPersonalEntry);
+    // }
 
     function addJerseySpec() {
         let newJerseyEntry = document.createElement("div");
         newJerseyEntry.classList.add("row", "g-4", "jersey-entry");
         newJerseyEntry.innerHTML = `
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-user form-icon"></i> Name</label>
+                    <input type="text" class="form-control hover-lift" name="jersey_name[]" placeholder="Enter Name" required>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label class="form-label"><i class="fas fa-ruler form-icon"></i> Jersey Size</label>
@@ -889,7 +917,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="form-label"><i class="fas fa-tshirt form-icon"></i> Sleeves</label>
                     <select class="form-select hover-lift" name="sleeves[]" required>
