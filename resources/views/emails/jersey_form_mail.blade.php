@@ -36,14 +36,17 @@
             color: #555;
             width: 40%;
         }
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
         .logo img {
+            max-width: 150px;
             border-radius: 5px;
             display: block;
             margin-top: 10px;
+        }
+        .list-container {
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-top: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -54,16 +57,56 @@
 
     <h3>Order Details</h3>
     <table>
+        <tr><td>Team Name:</td><td>{{ $jersey->team_name ?? 'N/A' }}</td></tr>
+        <tr><td>Patterns:</td><td>{{ $jersey->patterns ?? 'N/A' }}</td></tr>
+        <tr><td>Special Instructions:</td><td>{{ $jersey->special_instructions ?? 'None' }}</td></tr>
+    </table>
+
+    <!-- Single Entry -->
+    @if($jersey->first_name)
+    <h3>Personal Information</h3>
+    <table>
         <tr><td>First Name:</td><td>{{ $jersey->first_name }}</td></tr>
         <tr><td>Last Name:</td><td>{{ $jersey->last_name }}</td></tr>
         <tr><td>Email:</td><td>{{ $jersey->email }}</td></tr>
         <tr><td>Mobile Number:</td><td>{{ $jersey->mobile_number }}</td></tr>
         <tr><td>Jersey Size:</td><td>{{ $jersey->jersey_size }}</td></tr>
         <tr><td>Material Choice:</td><td>{{ $jersey->material_choice }}</td></tr>
-        <tr><td>Team Name:</td><td>{{ $jersey->team_name ?? 'N/A' }}</td></tr>
-        <tr><td>Patterns:</td><td>{{ $jersey->patterns ?? 'N/A' }}</td></tr>
-        <tr><td>Special Instructions:</td><td>{{ $jersey->special_instructions ?? 'None' }}</td></tr>
+        <tr><td>Sleeves:</td><td>{{ $jersey->sleeves }}</td></tr>
+        <tr><td>Number:</td><td>{{ $jersey->number }}</td></tr>
     </table>
+    @endif
+
+    <!-- Multiple Entries -->
+    @if(!empty($personalInfo))
+    <h3>Multiple Personal Entries</h3>
+    <div class="list-container">
+        @foreach($personalInfo as $index => $person)
+            <p><strong>Entry {{ $index + 1 }}:</strong></p>
+            <ul>
+                <li>First Name: {{ $person['first_name'] ?? 'N/A' }}</li>
+                <li>Last Name: {{ $person['last_name'] ?? 'N/A' }}</li>
+                <li>Email: {{ $person['email'] ?? 'N/A' }}</li>
+                <li>Mobile Number: {{ $person['mobile_number'] ?? 'N/A' }}</li>
+            </ul>
+        @endforeach
+    </div>
+    @endif
+
+    @if(!empty($jerseySpecs))
+    <h3>Jersey Specifications</h3>
+    <div class="list-container">
+        @foreach($jerseySpecs as $index => $spec)
+            <p><strong>Entry {{ $index + 1 }}:</strong></p>
+            <ul>
+                <li>Jersey Size: {{ $spec['jersey_size'] ?? 'N/A' }}</li>
+                <li>Material Choice: {{ $spec['material_choice'] ?? 'N/A' }}</li>
+                <li>Sleeves: {{ $spec['sleeves'] ?? 'N/A' }}</li>
+                <li>Number: {{ $spec['number'] ?? 'N/A' }}</li>
+            </ul>
+        @endforeach
+    </div>
+    @endif
 
     <h3>Logos</h3>
     <table>
@@ -81,9 +124,7 @@
         <tr>
             <td>Left Chest Logo (Image):</td>
             <td class="logo">
-                <a href="{{ asset('storage/logos/' . $jersey->left_chest_logo_image) }}" target="_blank">
-                    <img src="{{ asset('storage/logos/' . $jersey->left_chest_logo_image) }}" width="100" alt="Left Chest Logo">
-                </a>
+                <img src="{{ asset('storage/' . $jersey->left_chest_logo_image) }}" alt="Left Chest Logo">
             </td>
         </tr>
         @endif
@@ -102,13 +143,12 @@
         <tr>
             <td>Right Chest Logo (Image):</td>
             <td class="logo">
-                <a href="{{ asset('storage/logos/' . $jersey->right_chest_logo_image) }}" target="_blank">
-                    <img src="{{ asset('storage/logos/' . $jersey->right_chest_logo_image) }}" width="100" alt="Right Chest Logo">
-                </a>
+                <img src="{{ asset('storage/' . $jersey->right_chest_logo_image) }}" alt="Right Chest Logo">
             </td>
         </tr>
         @endif
     </table>
+
 </div>
 
 </body>

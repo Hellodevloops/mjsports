@@ -327,93 +327,125 @@
             @csrf
 
             <!-- Personal Information Section -->
-            <div class="field-group">
-                <h3 class="section-header">Personal Information</h3>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label"><i class="fas fa-user form-icon"></i>First Name</label>
-                            <input type="text" class="form-control hover-lift" name="first_name"
-                                value="{{ old('first_name') }}" placeholder="Enter your first name" required>
-                            @error('first_name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+           <!-- Personal Information Section -->
+                    <div class="container">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="section-header">Personal Information</h3>
+
+                        <div id="personal-info-section">
+                            <div class="row g-4 personal-entry">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
+                                        <input type="text" class="form-control hover-lift" name="first_name[]"
+                                            value="{{ old('first_name.0') }}" placeholder="Enter your first name" required>
+                                        @error('first_name.*')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
+                                        <input type="text" class="form-control hover-lift" name="last_name[]"
+                                            value="{{ old('last_name.0') }}" placeholder="Enter your last name" required>
+                                        @error('last_name.*')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
+                                        <input type="email" class="form-control hover-lift" name="email[]"
+                                            value="{{ old('email.0') }}" placeholder="your@email.com" required>
+                                        @error('email.*')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
+                                        <input type="tel" class="form-control hover-lift" name="mobile_number[]"
+                                            value="{{ old('mobile_number.0') }}" placeholder="Enter your mobile number" required>
+                                        @error('mobile_number.*')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label"><i class="fas fa-user form-icon"></i>Last Name</label>
-                            <input type="text" class="form-control hover-lift" name="last_name"
-                                value="{{ old('last_name') }}" placeholder="Enter your last name" required>
-                            @error('last_name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label"><i class="fas fa-envelope form-icon"></i>Email Address</label>
-                            <input type="email" class="form-control hover-lift" name="email"
-                                value="{{ old('email') }}" placeholder="your@email.com" required>
-                            @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label"><i class="fas fa-phone form-icon"></i>Mobile Number</label>
-                            <input type="tel" class="form-control hover-lift" name="mobile_number"
-                                value="{{ old('mobile_number') }}" placeholder="Enter your mobile number" required>
-                            @error('mobile_number')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+
+                        <!-- Add More Personal Info Button -->
+                        <button type="button" class="btn btn-outline-primary mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addPersonalInfo()">
+                            <i class="fas fa-user-plus me-2"></i> Add More Personal Info
+                        </button>
                     </div>
                 </div>
-            </div>
 
             <!-- Jersey Details Section -->
             <div class="container">
                 <div class="card p-4 shadow-sm">
-                    <h3 class="section-header mb-3">Jersey Specifications</h3>
+                    <h3 class="section-header">Jersey Specifications</h3>
 
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-ruler form-icon"></i> Jersey Size
-                                </label>
-                                <select class="form-select hover-lift" name="jersey_size" required>
-                                    {{-- <option value="">Select Size</option> --}}
-                                    <option value="S" {{ old('jersey_size') == 'S' ? 'selected' : '' }}>Small</option>
-                                    <option value="M" {{ old('jersey_size') == 'M' ? 'selected' : '' }}>Medium</option>
-                                    <option value="L" {{ old('jersey_size') == 'L' ? 'selected' : '' }}>Large</option>
-                                    <option value="XL" {{ old('jersey_size') == 'XL' ? 'selected' : '' }}>X-Large</option>
-                                </select>
-                                @error('jersey_size')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                    <div id="jersey-specifications">
+                        <div class="row g-4 jersey-entry">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-ruler form-icon"></i> Jersey Size
+                                    </label>
+                                    <select class="form-select hover-lift" name="jersey_size[]" required>
+                                        <option value="S">Small</option>
+                                        <option value="M">Medium</option>
+                                        <option value="L">Large</option>
+                                        <option value="XL">X-Large</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-tshirt form-icon"></i> Material Choice
-                                </label>
-                                <select class="form-select hover-lift" name="material_choice" required>
-                                    {{-- <option value="">Select Material</option> --}}
-                                    <option value="polyester" {{ old('material_choice') == 'polyester' ? 'selected' : '' }}>Premium Polyester</option>
-                                    <option value="nylon" {{ old('material_choice') == 'nylon' ? 'selected' : '' }}>Performance Nylon</option>
-                                    <option value="spandex" {{ old('material_choice') == 'spandex' ? 'selected' : '' }}>Elite Spandex</option>
-                                </select>
-                                @error('material_choice')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-tshirt form-icon"></i> Material Choice
+                                    </label>
+                                    <select class="form-select hover-lift" name="material_choice[]" required>
+                                        <option value="polyester">Premium Polyester</option>
+                                        <option value="nylon">Performance Nylon</option>
+                                        <option value="spandex">Elite Spandex</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-tshirt form-icon"></i> Sleeves
+                                    </label>
+                                    <select class="form-select hover-lift" name="sleeves[]" required>
+                                        <option value="half">Half Sleeves</option>
+                                        <option value="full">Full Sleeves</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-sort-numeric-up form-icon"></i> Number
+                                    </label>
+                                    <input type="number" class="form-control hover-lift" name="number[]" placeholder="Enter Number">
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Add More Jersey Button -->
+                    <button type="button" class="btn btn-outline-success mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addJerseySpec()">
+                        <i class="fas fa-tshirt me-2"></i> Add More Jersey
+                    </button>
+
                 </div>
 
                 <!-- Logo Upload Section -->
@@ -795,6 +827,88 @@
             });
         });
     </script>
+   <script>
+    function addPersonalInfo() {
+        let newPersonalEntry = document.createElement("div");
+        newPersonalEntry.classList.add("row", "g-4", "personal-entry");
+        newPersonalEntry.innerHTML = `
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
+                    <input type="text" class="form-control hover-lift" name="first_name[]"
+                        placeholder="Enter your first name" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
+                    <input type="text" class="form-control hover-lift" name="last_name[]"
+                        placeholder="Enter your last name" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
+                    <input type="email" class="form-control hover-lift" name="email[]"
+                        placeholder="your@email.com" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
+                    <input type="tel" class="form-control hover-lift" name="mobile_number[]"
+                        placeholder="Enter your mobile number" required>
+                </div>
+            </div>
+        `;
+        document.getElementById("personal-info-section").appendChild(newPersonalEntry);
+    }
+
+    function addJerseySpec() {
+        let newJerseyEntry = document.createElement("div");
+        newJerseyEntry.classList.add("row", "g-4", "jersey-entry");
+        newJerseyEntry.innerHTML = `
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-ruler form-icon"></i> Jersey Size</label>
+                    <select class="form-select hover-lift" name="jersey_size[]" required>
+                        <option value="S">Small</option>
+                        <option value="M">Medium</option>
+                        <option value="L">Large</option>
+                        <option value="XL">X-Large</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-tshirt form-icon"></i> Material Choice</label>
+                    <select class="form-select hover-lift" name="material_choice[]" required>
+                        <option value="polyester">Premium Polyester</option>
+                        <option value="nylon">Performance Nylon</option>
+                        <option value="spandex">Elite Spandex</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-tshirt form-icon"></i> Sleeves</label>
+                    <select class="form-select hover-lift" name="sleeves[]" required>
+                        <option value="half">Half Sleeves</option>
+                        <option value="full">Full Sleeves</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-sort-numeric-up form-icon"></i> Number</label>
+                    <input type="number" class="form-control hover-lift" name="number[]" placeholder="Enter Number">
+                </div>
+            </div>
+        `;
+        document.getElementById("jersey-specifications").appendChild(newJerseyEntry);
+    }
+</script>
+
 </body>
 
 </html>

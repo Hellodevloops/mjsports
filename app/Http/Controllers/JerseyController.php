@@ -23,85 +23,7 @@ class JerseyController extends Controller
         return view('jerseys.create');
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'first_name' => 'required|string|max:15',
-    //         'last_name' => 'required|string|max:255',
-    //         'email' => 'required|email|max:255',
-    //         'mobile_number' => 'required|string|max:15',
-    //         'jersey_size' => 'required|string|max:10',
-    //         'left_chest_logo' => 'nullable|string|max:255',
-    //         'right_chest_logo' => 'nullable|string|max:255',
-    //         'team_name' => 'nullable|string|max:255',
-    //         'material_choice' => 'required|string|max:255',
-    //         'patterns' => 'nullable|string|max:255',
-    //         'special_instructions' => 'nullable|string|max:500',
-    //     ]);
-
-    //     try {
-    //         // Store data in the database
-    //         $jersey = Jersey::create($validatedData);
-
-    //         // Generate PDF (without saving)
-    //         $pdf = Pdf::loadView('emails.jersey_form_mail', ['jersey' => $validatedData]);
-
-    //         // Send email with PDF attachment
-    //         Mail::to('24riyavaidya@gmail.com')->send(new JerseyFormMail($validatedData, $pdf));
-
-    //         // return redirect()->back()->with('success', 'Your Jersey order has been submitted successfully!');
-    //         return redirect()->route('jersey')->with('success', 'Your Jersey order has been submitted successfully!');
-
-    //     } catch (\Exception $e) {
-    //         return back()->with('error', 'Error: ' . $e->getMessage());
-    //     }
-    // }
-
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'first_name' => 'required|string|max:15',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'mobile_number' => 'required|string|max:15',
-            'jersey_size' => 'required|string|max:10',
-            'left_chest_logo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'right_chest_logo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'left_logo' => 'nullable|string|max:255', // Text input or predefined logo
-            'right_logo' => 'nullable|string|max:255', // Text input or predefined logo
-            'team_name' => 'nullable|string|max:255',
-            'material_choice' => 'required|string|max:255',
-            'patterns' => 'nullable|string|max:255',
-            'special_instructions' => 'nullable|string|max:500',
-        ]);
-
-        try {
-            // Handle left chest logo upload
-            if ($request->hasFile('left_chest_logo_image')) {
-                $validatedData['left_chest_logo_image'] = $request->file('left_chest_logo_image')->store('logos', 'public');
-            }
-
-            // Handle right chest logo upload
-            if ($request->hasFile('right_chest_logo_image')) {
-                $validatedData['right_chest_logo_image'] = $request->file('right_chest_logo_image')->store('logos', 'public');
-            }
-
-            // Store data in the database
-            $jersey = Jersey::create($validatedData);
-
-            // Generate PDF using the model object
-            $pdf = Pdf::loadView('emails.jersey_form_mail', ['jersey' => $jersey]);
-
-            // Send email with PDF attachment
-            Mail::to('24riyavaidya@gmail.com')->send(new JerseyFormMail($jersey, $pdf));
-
-            return redirect()->route('jersey')->with('success', 'Your Jersey order has been submitted successfully!');
-
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error: ' . $e->getMessage());
-        }
-    }
-
+// normal
     // public function store(Request $request)
     // {
     //     $validatedData = $request->validate([
@@ -112,8 +34,8 @@ class JerseyController extends Controller
     //         'jersey_size' => 'required|string|max:10',
     //         'left_chest_logo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     //         'right_chest_logo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //         'left_logo' => 'nullable|string|max:255',
-    //         'right_logo' => 'nullable|string|max:255',
+    //         'left_logo' => 'nullable|string|max:255', // Text input or predefined logo
+    //         'right_logo' => 'nullable|string|max:255', // Text input or predefined logo
     //         'team_name' => 'nullable|string|max:255',
     //         'material_choice' => 'required|string|max:255',
     //         'patterns' => 'nullable|string|max:255',
@@ -134,26 +56,8 @@ class JerseyController extends Controller
     //         // Store data in the database
     //         $jersey = Jersey::create($validatedData);
 
-    //         // Debugging: Log the jersey data
-    //         Log::info('Jersey Created:', $jersey->toArray());
-
-    //         // Generate PDF
+    //         // Generate PDF using the model object
     //         $pdf = Pdf::loadView('emails.jersey_form_mail', ['jersey' => $jersey]);
-
-    //         // Debugging: Check PDF instance
-    //         Log::info('PDF Generated, Class: ' . get_class($pdf));
-
-    //         if (!method_exists($pdf, 'output')) {
-    //             throw new \Exception("Error: PDF object does not have an output() method.");
-    //         }
-
-    //         // Check PDF content
-    //         $pdfContent = $pdf->output();
-    //         if (empty($pdfContent)) {
-    //             throw new \Exception("Error: Generated PDF is empty.");
-    //         }
-
-    //         Log::info('PDF Generated Successfully. Size: ' . strlen($pdfContent));
 
     //         // Send email with PDF attachment
     //         Mail::to('24riyavaidya@gmail.com')->send(new JerseyFormMail($jersey, $pdf));
@@ -161,11 +65,236 @@ class JerseyController extends Controller
     //         return redirect()->route('jersey')->with('success', 'Your Jersey order has been submitted successfully!');
 
     //     } catch (\Exception $e) {
-    //         Log::error('Error in Jersey Form Submission: ' . $e->getMessage());
     //         return back()->with('error', 'Error: ' . $e->getMessage());
     //     }
     // }
 
+    // array n string wtot jersey fields
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         // Personal Information (Allow Multiple Entries)
+    //         'first_name' => 'array',
+    //         'first_name.*' => 'string|max:15|nullable',
+    //         'last_name' => 'array',
+    //         'last_name.*' => 'string|max:255|nullable',
+    //         'email' => 'array',
+    //         'email.*' => 'email|max:255|nullable',
+    //         'mobile_number' => 'array',
+    //         'mobile_number.*' => 'string|max:15|nullable',
+
+    //         // Jersey Specifications (Allow Multiple Entries)
+    //         'jersey_size' => 'array',
+    //         'jersey_size.*' => 'string|max:10|nullable',
+    //         'material_choice' => 'array',
+    //         'material_choice.*' => 'string|max:255|nullable',
+
+    //         // Additional Fields
+    //         'left_chest_logo_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
+    //         'right_chest_logo_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
+    //         'left_logo' => 'string|max:255|nullable',
+    //         'right_logo' => 'string|max:255|nullable',
+    //         'team_name' => 'string|max:255|nullable',
+    //         'patterns' => 'string|max:255|nullable',
+    //         'special_instructions' => 'string|max:500|nullable',
+    //     ]);
+
+    //     try {
+    //         // Handle file uploads
+    //         $validatedData['left_chest_logo_image'] = $request->hasFile('left_chest_logo_image')
+    //             ? $request->file('left_chest_logo_image')->store('logos', 'public')
+    //             : null;
+
+    //         $validatedData['right_chest_logo_image'] = $request->hasFile('right_chest_logo_image')
+    //             ? $request->file('right_chest_logo_image')->store('logos', 'public')
+    //             : null;
+
+    //         // Check if only one record is entered
+    //         if (count($validatedData['first_name']) == 1) {
+    //             $jersey = Jersey::create([
+    //                 'first_name' => $validatedData['first_name'][0] ?? null,
+    //                 'last_name' => $validatedData['last_name'][0] ?? null,
+    //                 'email' => $validatedData['email'][0] ?? null,
+    //                 'mobile_number' => $validatedData['mobile_number'][0] ?? null,
+    //                 'jersey_size' => $validatedData['jersey_size'][0] ?? null,
+    //                 'material_choice' => $validatedData['material_choice'][0] ?? null,
+    //                 'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
+    //                 'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
+    //                 'left_logo' => $validatedData['left_logo'],
+    //                 'right_logo' => $validatedData['right_logo'],
+    //                 'team_name' => $validatedData['team_name'],
+    //                 'patterns' => $validatedData['patterns'],
+    //                 'special_instructions' => $validatedData['special_instructions'],
+    //                 'personal_info' => null, // Not needed for a single entry
+    //                 'jersey_specifications' => null, // Not needed for a single entry
+    //             ]);
+    //         } else {
+    //             // Convert multiple records to JSON
+    //             $personalInfo = [];
+    //             foreach ($validatedData['first_name'] ?? [] as $index => $firstName) {
+    //                 $personalInfo[] = [
+    //                     'first_name' => $firstName,
+    //                     'last_name' => $validatedData['last_name'][$index] ?? null,
+    //                     'email' => $validatedData['email'][$index] ?? null,
+    //                     'mobile_number' => $validatedData['mobile_number'][$index] ?? null,
+    //                 ];
+    //             }
+    //             $personalInfoJson = json_encode($personalInfo);
+
+    //             $jerseySpecs = [];
+    //             foreach ($validatedData['jersey_size'] ?? [] as $index => $size) {
+    //                 $jerseySpecs[] = [
+    //                     'jersey_size' => $size,
+    //                     'material_choice' => $validatedData['material_choice'][$index] ?? null,
+    //                 ];
+    //             }
+    //             $jerseySpecsJson = json_encode($jerseySpecs);
+
+    //             $jersey = Jersey::create([
+    //                 'first_name' => null, // Not needed for multiple entries
+    //                 'last_name' => null,
+    //                 'email' => null,
+    //                 'mobile_number' => null,
+    //                 'jersey_size' => null,
+    //                 'material_choice' => null,
+    //                 'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
+    //                 'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
+    //                 'left_logo' => $validatedData['left_logo'],
+    //                 'right_logo' => $validatedData['right_logo'],
+    //                 'team_name' => $validatedData['team_name'],
+    //                 'patterns' => $validatedData['patterns'],
+    //                 'special_instructions' => $validatedData['special_instructions'],
+    //                 'personal_info' => $personalInfoJson,
+    //                 'jersey_specifications' => $jerseySpecsJson,
+    //             ]);
+    //         }
+
+    //         // Generate and attach PDF
+    //         $pdf = Pdf::loadView('emails.jersey_form_mail', ['jersey' => $jersey]);
+    //         Mail::to('24riyavaidya@gmail.com')->send(new JerseyFormMail($jersey, $pdf));
+
+    //         return redirect()->route('jersey')->with('success', 'Your Jersey order has been submitted successfully!');
+    //     } catch (\Exception $e) {
+    //         return back()->with('error', 'Something went wrong. Please try again.');
+    //     }
+    // }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            // Personal Information (Allow Multiple Entries)
+            'first_name' => 'array',
+            'first_name.*' => 'string|max:15|nullable',
+            'last_name' => 'array',
+            'last_name.*' => 'string|max:255|nullable',
+            'email' => 'array',
+            'email.*' => 'email|max:255|nullable',
+            'mobile_number' => 'array',
+            'mobile_number.*' => 'string|max:15|nullable',
+
+            // Jersey Specifications (Allow Multiple Entries)
+            'jersey_size' => 'array',
+            'jersey_size.*' => 'string|max:10|nullable',
+            'material_choice' => 'array',
+            'material_choice.*' => 'string|max:255|nullable',
+            'sleeves' => 'array',
+            'sleeves.*' => 'string|max:10|nullable',
+            'number' => 'array',
+            'number.*' => 'integer|nullable',
+
+            // Additional Fields
+            'left_chest_logo_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
+            'right_chest_logo_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
+            'left_logo' => 'string|max:255|nullable',
+            'right_logo' => 'string|max:255|nullable',
+            'team_name' => 'string|max:255|nullable',
+            'patterns' => 'string|max:255|nullable',
+            'special_instructions' => 'string|max:500|nullable',
+        ]);
+
+        try {
+            // Handle file uploads
+            $validatedData['left_chest_logo_image'] = $request->hasFile('left_chest_logo_image')
+                ? $request->file('left_chest_logo_image')->store('logos', 'public')
+                : null;
+
+            $validatedData['right_chest_logo_image'] = $request->hasFile('right_chest_logo_image')
+                ? $request->file('right_chest_logo_image')->store('logos', 'public')
+                : null;
+
+            // Check if only one record is entered
+            if (count($validatedData['first_name']) == 1) {
+                $jersey = Jersey::create([
+                    'first_name' => $validatedData['first_name'][0] ?? null,
+                    'last_name' => $validatedData['last_name'][0] ?? null,
+                    'email' => $validatedData['email'][0] ?? null,
+                    'mobile_number' => $validatedData['mobile_number'][0] ?? null,
+                    'jersey_size' => $validatedData['jersey_size'][0] ?? null,
+                    'material_choice' => $validatedData['material_choice'][0] ?? null,
+                    'sleeves' => $validatedData['sleeves'][0] ?? null,
+                    'number' => $validatedData['number'][0] ?? null,
+                    'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
+                    'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
+                    'left_logo' => $validatedData['left_logo'],
+                    'right_logo' => $validatedData['right_logo'],
+                    'team_name' => $validatedData['team_name'],
+                    'patterns' => $validatedData['patterns'],
+                    'special_instructions' => $validatedData['special_instructions'],
+                    'personal_info' => null, // Not needed for a single entry
+                    'jersey_specifications' => null, // Not needed for a single entry
+                ]);
+            } else {
+                // Convert multiple records to JSON
+                $personalInfo = [];
+                foreach ($validatedData['first_name'] ?? [] as $index => $firstName) {
+                    $personalInfo[] = [
+                        'first_name' => $firstName,
+                        'last_name' => $validatedData['last_name'][$index] ?? null,
+                        'email' => $validatedData['email'][$index] ?? null,
+                        'mobile_number' => $validatedData['mobile_number'][$index] ?? null,
+                    ];
+                }
+                $personalInfoJson = json_encode($personalInfo);
+
+                $jerseySpecs = [];
+                foreach ($validatedData['jersey_size'] ?? [] as $index => $size) {
+                    $jerseySpecs[] = [
+                        'jersey_size' => $size,
+                        'material_choice' => $validatedData['material_choice'][$index] ?? null,
+                        'sleeves' => $validatedData['sleeves'][$index] ?? null,
+                        'number' => $validatedData['number'][$index] ?? null,
+                    ];
+                }
+                $jerseySpecsJson = json_encode($jerseySpecs);
+
+                $jersey = Jersey::create([
+                    'first_name' => null, // Not needed for multiple entries
+                    'last_name' => null,
+                    'email' => null,
+                    'mobile_number' => null,
+                    'jersey_size' => null,
+                    'material_choice' => null,
+                    'sleeves' => null,
+                    'number' => null,
+                    'left_chest_logo_image' => $validatedData['left_chest_logo_image'],
+                    'right_chest_logo_image' => $validatedData['right_chest_logo_image'],
+                    'left_logo' => $validatedData['left_logo'],
+                    'right_logo' => $validatedData['right_logo'],
+                    'team_name' => $validatedData['team_name'],
+                    'patterns' => $validatedData['patterns'],
+                    'special_instructions' => $validatedData['special_instructions'],
+                    'personal_info' => $personalInfoJson,
+                    'jersey_specifications' => $jerseySpecsJson,
+                ]);
+            }
+
+            $pdf = Pdf::loadView('emails.jersey_form_mail', ['jersey' => $jersey]);
+            Mail::to('24riyavaidya@gmail.com')->send(new JerseyFormMail($jersey, $pdf));
+            return redirect()->route('jersey')->with('success', 'Your Jersey order has been submitted successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
 
 
 
