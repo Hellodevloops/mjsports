@@ -136,23 +136,30 @@
     $jerseySpecs = json_decode($jersey->jersey_specifications, true);
   @endphp
 
-  @if(!empty($jerseySpecs))
-  <h3>Jersey Specifications</h3>
-  <div class="list-container">
-    @foreach($jerseySpecs as $index => $spec)
-      <p><strong>Entry {{ $index + 1 }}:</strong></p>
-      <ul>
-        @if(!empty($spec['name']))
-          <li>Name: {{ $spec['name'] }}</li>
-        @endif
-        <li>Jersey Size: {{ $spec['jersey_size'] ?? 'N/A' }}</li>
-        <li>Material Choice: {{ $spec['material_choice'] ?? 'N/A' }}</li>
-        <li>Sleeves: {{ $spec['sleeves'] ?? 'N/A' }}</li>
-        <li>Number: {{ $spec['number'] ?? 'N/A' }}</li>
-      </ul>
-    @endforeach
-  </div>
-  @endif
+@if(!empty($jerseySpecs))
+<h3>Jersey Specifications</h3>
+<table>
+  <tr>
+    <th>Total Members</th>
+    <th>Name</th>
+    <th>Jersey Size</th>
+    <th>Material Choice</th>
+    <th>Sleeves</th>
+    <th>Number</th>
+  </tr>
+  @foreach($jerseySpecs as $index => $spec)
+    <tr>
+      <td>{{ $index + 1 }}</td>
+      <td>{{ $spec['name'] ?? 'N/A' }}</td>
+      <td>{{ $spec['jersey_size'] ?? 'N/A' }}</td>
+      <td>{{ $spec['material_choice'] ?? 'N/A' }}</td>
+      <td>{{ $spec['sleeves'] ?? 'N/A' }}</td>
+      <td>{{ $spec['number'] ?? 'N/A' }}</td>
+    </tr>
+  @endforeach
+</table>
+@endif
+
 
   <h3>Logos</h3>
   <table>

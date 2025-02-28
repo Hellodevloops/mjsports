@@ -389,72 +389,55 @@
             <div class="container">
                 <div class="card p-4 shadow-sm">
                     <h3 class="section-header">Jersey Specifications</h3>
-
-                    <div id="jersey-specifications">
-                        <div class="row g-3 jersey-entry align-items-end">
-                            <div class="col-md-3">
-                                <div class="form-group px-2 py-2">
-                                    <label class="form-label">
-                                        <i class="fas fa-user form-icon"></i> Name
-                                    </label>
+                    <table class="table table-bordered" id="jersey-specifications-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Jersey Size</th>
+                                <th>Material Choice</th>
+                                <th>Sleeves</th>
+                                <th>Number</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jersey-specifications">
+                            <tr class="jersey-entry">
+                                <td>
                                     <input type="text" class="form-control hover-lift" name="name[]" placeholder="Enter Name" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group px-2 py-2">
-                                    <label class="form-label">
-                                        <i class="fas fa-ruler form-icon"></i> Jersey Size
-                                    </label>
+                                </td>
+                                <td>
                                     <select class="form-select hover-lift" name="jersey_size[]" required>
                                         <option value="S">Small</option>
                                         <option value="M">Medium</option>
                                         <option value="L">Large</option>
                                         <option value="XL">X-Large</option>
                                     </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group px-2 py-2">
-                                    <label class="form-label">
-                                        <i class="fas fa-tshirt form-icon"></i> Material Choice
-                                    </label>
+                                </td>
+                                <td>
                                     <select class="form-select hover-lift" name="material_choice[]" required>
                                         <option value="polyester">Premium Polyester</option>
                                         <option value="nylon">Performance Nylon</option>
                                         <option value="spandex">Elite Spandex</option>
                                     </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group px-2 py-2">
-                                    <label class="form-label">
-                                        <i class="fas fa-tshirt form-icon"></i> Sleeves
-                                    </label>
+                                </td>
+                                <td>
                                     <select class="form-select hover-lift" name="sleeves[]" required>
                                         <option value="half">Half Sleeves</option>
                                         <option value="full">Full Sleeves</option>
                                     </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group px-2 py-2">
-                                    <label class="form-label">
-                                        <i class="fas fa-sort-numeric-up form-icon"></i> Number
-                                    </label>
+                                </td>
+                                <td>
                                     <input type="number" class="form-control hover-lift" name="number[]" placeholder="Enter Number">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                    <button type="button" class="btn btn-outline-success mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addJerseySpec()">
-                        <i class="fas fa-tshirt me-2"></i> Add More Jersey
-                    </button>
+                    <!-- Moved Add Button Below the Table -->
+                    <div class="mt-3">
+                        <button type="button" onclick="addJerseySpec()" class="btn btn-primary">+ Add More</button>
+                    </div>
                 </div>
+
 
 
                 <!-- Logo Upload Section -->
@@ -677,187 +660,177 @@
             doc.save('order-details.pdf');
         }
     </script>
-   <script>
+  <script>
     async function downloadFormData() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'pt', 'a4');
 
-        // Basic layout settings
-        let marginX = 30;
         let pageWidth = doc.internal.pageSize.getWidth();
         let y = 40;
-        let rowHeight = 16;
-        let col1X = marginX;
-        let col2X = marginX + 150;
+        let marginX = 30;
 
-        // ─── Document Header ───
+        // ─── Document Title ───
         doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
         doc.text("Jersey Order Confirmation", pageWidth / 2, y, { align: "center" });
-        doc.setLineWidth(1);
         doc.line(marginX, y + 8, pageWidth - marginX, y + 8);
         y += 30;
 
-        // ─── Order Details Section ───
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(18);
-        doc.text("Order Details", marginX, y);
+        doc.setFontSize(16);
+        doc.text("Personal Information", marginX, y);
         y += 20;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(14);
+        doc.setFontSize(12);
 
-        let teamName = document.querySelector("[name='team_name']") ? document.querySelector("[name='team_name']").value : "N/A";
-        let patterns = document.querySelector("[name='patterns']") ? document.querySelector("[name='patterns']").value : "N/A";
-        let specialInstructions = document.querySelector("[name='special_instructions']") ? document.querySelector("[name='special_instructions']").value : "None";
+        // ─── Personal Information ───
+        let firstName = document.querySelector("[name='first_name']")?.value || "N/A";
+        let lastName = document.querySelector("[name='last_name']")?.value || "N/A";
+        let email = document.querySelector("[name='email']")?.value || "N/A";
+        let mobile = document.querySelector("[name='mobile_number']")?.value || "N/A";
 
-        doc.text("Team Name:", col1X, y);
-        doc.text(teamName, col2X, y);
-        y += rowHeight;
-        doc.text("Patterns:", col1X, y);
-        doc.text(patterns, col2X, y);
-        y += rowHeight;
-        doc.text("Special Instructions:", col1X, y);
-        doc.text(specialInstructions, col2X, y);
-        y += rowHeight + 10;
+        doc.text(`First Name: ${firstName}`, marginX, y);
+        y += 20;
+        doc.text(`Last Name: ${lastName}`, marginX, y);
+        y += 20;
+        doc.text(`Email: ${email}`, marginX, y);
+        y += 20;
+        doc.text(`Mobile Number: ${mobile}`, marginX, y);
+        y += 30;
 
-        // ─── Personal Information Section ───
-        let firstNameField = document.querySelector("[name='first_name']");
-        if (firstNameField && firstNameField.value.trim() !== "") {
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.text("Personal Information", marginX, y);
-            y += 20;
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(14);
+        // ─── Additional Information ───
+        doc.setFontSize(16);
+        doc.text("Additional Information", marginX, y);
+        y += 20;
+        doc.setFontSize(12);
 
-            let firstName = firstNameField.value;
-            let lastName = document.querySelector("[name='last_name']") ? document.querySelector("[name='last_name']").value : "";
-            let email = document.querySelector("[name='email']") ? document.querySelector("[name='email']").value : "";
-            let mobileNumber = document.querySelector("[name='mobile_number']") ? document.querySelector("[name='mobile_number']").value : "";
+        let teamName = document.querySelector("[name='team_name']")?.value || "N/A";
+        let patterns = document.querySelector("[name='patterns']")?.value || "N/A";
+        let specialInstructions = document.querySelector("[name='special_instructions']")?.value || "N/A";
 
-            doc.text("First Name:", col1X, y);
-            doc.text(firstName, col2X, y);
-            y += rowHeight;
-            doc.text("Last Name:", col1X, y);
-            doc.text(lastName, col2X, y);
-            y += rowHeight;
-            doc.text("Email:", col1X, y);
-            doc.text(email, col2X, y);
-            y += rowHeight;
-            doc.text("Mobile Number:", col1X, y);
-            doc.text(mobileNumber, col2X, y);
-            y += rowHeight + 10;
-        }
+        doc.text(`Team Name: ${teamName}`, marginX, y);
+        y += 20;
+        doc.text(`Pattern Choice: ${patterns}`, marginX, y);
+        y += 20;
+        doc.text(`Special Instructions: ${specialInstructions}`, marginX, y);
+        y += 30;
 
-        // ─── Jersey Specifications Section ───
-        let jerseyNames = document.getElementsByName("name[]");
-        if (jerseyNames.length > 0) {
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
+        // ─── Jersey Specifications Table ───
+        let jerseys = document.getElementsByName("name[]");
+        if (jerseys.length > 0) {
+            doc.setFontSize(16);
             doc.text("Jersey Specifications", marginX, y);
             y += 20;
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(14);
+            doc.setFontSize(10);
 
-            let jerseySizes = document.getElementsByName("jersey_size[]");
-            let materialChoices = document.getElementsByName("material_choice[]");
+            let headers = [
+                "Total Members",
+                "Player Name",
+                "Jersey Size",
+                "Material Type",
+                "Sleeve Length",
+                "Player Number"
+            ];
+            let colWidths = [100, 80, 80, 100, 100, 80];
+
+            let x = marginX;
+            headers.forEach((header, i) => {
+                doc.text(header, x, y);
+                x += colWidths[i];
+            });
+            y += 10;
+            doc.line(marginX, y, pageWidth - marginX, y);
+            y += 10;
+
+            let sizes = document.getElementsByName("jersey_size[]");
+            let materials = document.getElementsByName("material_choice[]");
             let sleeves = document.getElementsByName("sleeves[]");
             let numbers = document.getElementsByName("number[]");
 
-            for (let i = 0; i < jerseyNames.length; i++) {
-                doc.setFont("helvetica", "bold");
-                doc.text(`Entry ${i + 1}:`, marginX, y);
-                y += rowHeight;
-                doc.setFont("helvetica", "normal");
+            for (let i = 0; i < jerseys.length; i++) {
+                let rowX = marginX;
+                let rowData = [
+                    (i + 1).toString(),
+                    jerseys[i]?.value || "N/A",
+                    sizes[i]?.value || "N/A",
+                    materials[i]?.value || "N/A",
+                    sleeves[i]?.value || "N/A",
+                    numbers[i]?.value || "N/A",
+                ];
 
-                let specName = jerseyNames[i].value || "N/A";
-                let jerseySize = jerseySizes[i] ? jerseySizes[i].value : "N/A";
-                let materialChoice = materialChoices[i] ? materialChoices[i].value : "N/A";
-                let sleeve = sleeves[i] ? sleeves[i].value : "N/A";
-                let numberVal = numbers[i] ? numbers[i].value : "N/A";
+                rowData.forEach((text, j) => {
+                    doc.text(text, rowX, y);
+                    rowX += colWidths[j];
+                });
 
-                doc.text("Name:", col1X, y);
-                doc.text(specName, col2X, y);
-                y += rowHeight;
-                doc.text("Jersey Size:", col1X, y);
-                doc.text(jerseySize, col2X, y);
-                y += rowHeight;
-                doc.text("Material Choice:", col1X, y);
-                doc.text(materialChoice, col2X, y);
-                y += rowHeight;
-                doc.text("Sleeves:", col1X, y);
-                doc.text(sleeve, col2X, y);
-                y += rowHeight;
-                doc.text("Number:", col1X, y);
-                doc.text(numberVal, col2X, y);
-                y += rowHeight + 10;
+                y += 15;
+                if (y > 750) {
+                    doc.addPage();
+                    y = 40;
+                }
             }
+            y += 30;
         }
 
-        // ─── Logos Section (Text) ───
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(18);
-        doc.text("Logos", marginX, y);
+        // ─── Logo Details ───
+        doc.setFontSize(16);
+        doc.text("Logo Details", marginX, y);
         y += 20;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(14);
+        doc.setFontSize(12);
 
-        let leftLogoText = document.querySelector("[name='left_logo']") ? document.querySelector("[name='left_logo']").value : "N/A";
-        let rightLogoText = document.querySelector("[name='right_logo']") ? document.querySelector("[name='right_logo']").value : "N/A";
+        let leftLogoText = document.querySelector("[name='left_logo']")?.value || "N/A";
+        let rightLogoText = document.querySelector("[name='right_logo']")?.value || "N/A";
 
-        doc.text("Left Chest Logo (Text):", col1X, y);
-        doc.text(leftLogoText, col2X, y);
-        y += rowHeight;
-        doc.text("Right Chest Logo (Text):", col1X, y);
-        doc.text(rightLogoText, col2X, y);
-        y += rowHeight + 10;
+        doc.text("Left Chest Logo (Text):", marginX, y);
+        doc.text(leftLogoText, marginX + 150, y);
+        y += 20;
 
-        // ─── Logos Section (Images) ───
-        // Helper: Convert file to Base64 data URL using FileReader
+        doc.text("Right Chest Logo (Text):", marginX, y);
+        doc.text(rightLogoText, marginX + 150, y);
+        y += 30;
+
+        // ─── Convert Images to Base64 ───
         function readFileAsDataURL(file) {
             return new Promise((resolve, reject) => {
                 let reader = new FileReader();
-                reader.onload = function(e) {
-                    resolve(e.target.result);
-                };
-                reader.onerror = function(err) {
-                    reject(err);
-                };
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
         }
 
-        // Process Left Chest Logo Image from file input
         let leftLogoInput = document.querySelector("[name='left_chest_logo_image']");
-        if (leftLogoInput && leftLogoInput.files && leftLogoInput.files[0]) {
-            try {
-                let leftLogoDataUrl = await readFileAsDataURL(leftLogoInput.files[0]);
-                doc.text("Left Chest Logo (Image):", col1X, y);
-                // Adjust dimensions as needed (e.g., 80x80)
-                doc.addImage(leftLogoDataUrl, "PNG", col2X, y - 10, 80, 80);
-                y += 90;
-            } catch (err) {
-                console.error("Error loading left logo image:", err);
-            }
+        let rightLogoInput = document.querySelector("[name='right_chest_logo_image']");
+
+        let imagePromises = [
+            leftLogoInput?.files[0] ? readFileAsDataURL(leftLogoInput.files[0]) : null,
+            rightLogoInput?.files[0] ? readFileAsDataURL(rightLogoInput.files[0]) : null
+        ];
+
+        let [leftLogoDataUrl, rightLogoDataUrl] = await Promise.all(imagePromises);
+
+        if (leftLogoDataUrl) {
+            doc.text("Left Chest Logo (Image):", marginX, y);
+            doc.addImage(leftLogoDataUrl, "PNG", marginX + 150, y - 10, 80, 80);
+            y += 90;
+        } else {
+            doc.text("Left Chest Logo: N/A", marginX, y);
+            y += 20;
         }
 
-        // Process Right Chest Logo Image from file input
-        let rightLogoInput = document.querySelector("[name='right_chest_logo_image']");
-        if (rightLogoInput && rightLogoInput.files && rightLogoInput.files[0]) {
-            try {
-                let rightLogoDataUrl = await readFileAsDataURL(rightLogoInput.files[0]);
-                doc.text("Right Chest Logo (Image):", col1X, y);
-                doc.addImage(rightLogoDataUrl, "PNG", col2X, y - 10, 80, 80);
-                y += 90;
-            } catch (err) {
-                console.error("Error loading right logo image:", err);
-            }
+        if (rightLogoDataUrl) {
+            doc.text("Right Chest Logo (Image):", marginX, y);
+            doc.addImage(rightLogoDataUrl, "PNG", marginX + 150, y - 10, 80, 80);
+            y += 90;
+        } else {
+            doc.text("Right Chest Logo: N/A", marginX, y);
+            y += 20;
         }
 
         // ─── Save the PDF ───
         doc.save("Jersey_Order_Details.pdf");
     }
 </script>
+
+
 
 
     <script>
@@ -1010,54 +983,19 @@
     // }
 
     function addJerseySpec() {
-        let newJerseyEntry = document.createElement("div");
-        newJerseyEntry.classList.add("row", "g-4", "jersey-entry");
-        newJerseyEntry.innerHTML = `
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-user form-icon"></i> Name</label>
-                    <input type="text" class="form-control hover-lift" name="name[]" placeholder="Enter Name" required>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-ruler form-icon"></i> Jersey Size</label>
-                    <select class="form-select hover-lift" name="jersey_size[]" required>
-                        <option value="S">Small</option>
-                        <option value="M">Medium</option>
-                        <option value="L">Large</option>
-                        <option value="XL">X-Large</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-tshirt form-icon"></i> Material Choice</label>
-                    <select class="form-select hover-lift" name="material_choice[]" required>
-                        <option value="polyester">Premium Polyester</option>
-                        <option value="nylon">Performance Nylon</option>
-                        <option value="spandex">Elite Spandex</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-tshirt form-icon"></i> Sleeves</label>
-                    <select class="form-select hover-lift" name="sleeves[]" required>
-                        <option value="half">Half Sleeves</option>
-                        <option value="full">Full Sleeves</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-sort-numeric-up form-icon"></i> Number</label>
-                    <input type="number" class="form-control hover-lift" name="number[]" placeholder="Enter Number">
-                </div>
-            </div>
-        `;
-        document.getElementById("jersey-specifications").appendChild(newJerseyEntry);
-    }
+  // Get the table body element
+  const tableBody = document.getElementById("jersey-specifications");
+  // Clone the first row (template)
+  const templateRow = tableBody.querySelector(".jersey-entry");
+  const newRow = templateRow.cloneNode(true);
+
+  // Reset input/select values in the new row
+  newRow.querySelectorAll("input").forEach(input => input.value = "");
+  newRow.querySelectorAll("select").forEach(select => select.selectedIndex = 0);
+
+  // Append the new row to the table body
+  tableBody.appendChild(newRow);
+}
 </script>
 
 </body>
