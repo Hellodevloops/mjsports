@@ -382,7 +382,7 @@
                     <i class="fas fa-user-plus me-2"></i> Add More Personal Info
                 </button> --}}
             </div>
-        </div>
+            </div>
 
 
             <!-- Jersey Details Section -->
@@ -397,7 +397,7 @@
                                     <label class="form-label">
                                         <i class="fas fa-user form-icon"></i> Name
                                     </label>
-                                    <input type="text" class="form-control hover-lift" name="jersey_name[]" placeholder="Enter Name" required>
+                                    <input type="text" class="form-control hover-lift" name="name[]" placeholder="Enter Name" required>
                                 </div>
                             </div>
 
@@ -677,65 +677,188 @@
             doc.save('order-details.pdf');
         }
     </script>
-       <script>
-        function downloadFormData() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+   <script>
+    async function downloadFormData() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'a4');
 
-            let marginX = 15; // Left margin
-            let y = 20; // Initial vertical position
+        // Basic layout settings
+        let marginX = 30;
+        let pageWidth = doc.internal.pageSize.getWidth();
+        let y = 40;
+        let rowHeight = 16;
+        let col1X = marginX;
+        let col2X = marginX + 150;
 
-            // 🔹 Add Document Header
+        // ─── Document Header ───
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(22);
+        doc.text("Jersey Order Confirmation", pageWidth / 2, y, { align: "center" });
+        doc.setLineWidth(1);
+        doc.line(marginX, y + 8, pageWidth - marginX, y + 8);
+        y += 30;
+
+        // ─── Order Details Section ───
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("Order Details", marginX, y);
+        y += 20;
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(14);
+
+        let teamName = document.querySelector("[name='team_name']") ? document.querySelector("[name='team_name']").value : "N/A";
+        let patterns = document.querySelector("[name='patterns']") ? document.querySelector("[name='patterns']").value : "N/A";
+        let specialInstructions = document.querySelector("[name='special_instructions']") ? document.querySelector("[name='special_instructions']").value : "None";
+
+        doc.text("Team Name:", col1X, y);
+        doc.text(teamName, col2X, y);
+        y += rowHeight;
+        doc.text("Patterns:", col1X, y);
+        doc.text(patterns, col2X, y);
+        y += rowHeight;
+        doc.text("Special Instructions:", col1X, y);
+        doc.text(specialInstructions, col2X, y);
+        y += rowHeight + 10;
+
+        // ─── Personal Information Section ───
+        let firstNameField = document.querySelector("[name='first_name']");
+        if (firstNameField && firstNameField.value.trim() !== "") {
             doc.setFont("helvetica", "bold");
             doc.setFontSize(18);
-            doc.text("Jersey Order Details", 105, y, { align: "center" });
-            doc.setLineWidth(0.5);
-            doc.line(15, y + 5, 195, y + 5); // Underline
-            y += 15;
-
-            // 🔹 Extract Form Data
-            let formData = [];
-
-            document.querySelectorAll("#order-form input, #order-form select, #order-form textarea").forEach(input => {
-                if (input.type !== "hidden") {
-                    formData.push({ name: input.name.replace(/_/g, " "), value: input.value || "N/A" });
-                }
-            });
-
-            // 🔹 Table Styling
-            let colWidths = [60, 120]; // Column widths
-            let rowHeight = 8;
-            let tableStartY = y;
-
-            // 🔹 Table Header
-            doc.setFont("helvetica", "bold");
-            doc.setFillColor(230, 230, 230); // Light gray background
-            doc.rect(marginX, tableStartY, colWidths[0], rowHeight, "F"); // Field Name Column
-            doc.rect(marginX + colWidths[0], tableStartY, colWidths[1], rowHeight, "F"); // Value Column
-            doc.text("Field", marginX + 5, tableStartY + 5);
-            doc.text("Value", marginX + colWidths[0] + 5, tableStartY + 5);
-            y += rowHeight;
-
-            // 🔹 Table Content
+            doc.text("Personal Information", marginX, y);
+            y += 20;
             doc.setFont("helvetica", "normal");
-            formData.forEach((item, index) => {
-                let rowY = y + (index * rowHeight);
+            doc.setFontSize(14);
 
-                // Add table borders
-                doc.rect(marginX, rowY, colWidths[0], rowHeight);
-                doc.rect(marginX + colWidths[0], rowY, colWidths[1], rowHeight);
+            let firstName = firstNameField.value;
+            let lastName = document.querySelector("[name='last_name']") ? document.querySelector("[name='last_name']").value : "";
+            let email = document.querySelector("[name='email']") ? document.querySelector("[name='email']").value : "";
+            let mobileNumber = document.querySelector("[name='mobile_number']") ? document.querySelector("[name='mobile_number']").value : "";
 
-                // Add Field Name
-                doc.text(item.name, marginX + 5, rowY + 5);
-
-                // Add Field Value
-                doc.text(item.value, marginX + colWidths[0] + 5, rowY + 5);
-            });
-
-            // 🔹 Save as PDF
-            doc.save("Jersey_Order_Details.pdf");
+            doc.text("First Name:", col1X, y);
+            doc.text(firstName, col2X, y);
+            y += rowHeight;
+            doc.text("Last Name:", col1X, y);
+            doc.text(lastName, col2X, y);
+            y += rowHeight;
+            doc.text("Email:", col1X, y);
+            doc.text(email, col2X, y);
+            y += rowHeight;
+            doc.text("Mobile Number:", col1X, y);
+            doc.text(mobileNumber, col2X, y);
+            y += rowHeight + 10;
         }
-    </script>
+
+        // ─── Jersey Specifications Section ───
+        let jerseyNames = document.getElementsByName("name[]");
+        if (jerseyNames.length > 0) {
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("Jersey Specifications", marginX, y);
+            y += 20;
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(14);
+
+            let jerseySizes = document.getElementsByName("jersey_size[]");
+            let materialChoices = document.getElementsByName("material_choice[]");
+            let sleeves = document.getElementsByName("sleeves[]");
+            let numbers = document.getElementsByName("number[]");
+
+            for (let i = 0; i < jerseyNames.length; i++) {
+                doc.setFont("helvetica", "bold");
+                doc.text(`Entry ${i + 1}:`, marginX, y);
+                y += rowHeight;
+                doc.setFont("helvetica", "normal");
+
+                let specName = jerseyNames[i].value || "N/A";
+                let jerseySize = jerseySizes[i] ? jerseySizes[i].value : "N/A";
+                let materialChoice = materialChoices[i] ? materialChoices[i].value : "N/A";
+                let sleeve = sleeves[i] ? sleeves[i].value : "N/A";
+                let numberVal = numbers[i] ? numbers[i].value : "N/A";
+
+                doc.text("Name:", col1X, y);
+                doc.text(specName, col2X, y);
+                y += rowHeight;
+                doc.text("Jersey Size:", col1X, y);
+                doc.text(jerseySize, col2X, y);
+                y += rowHeight;
+                doc.text("Material Choice:", col1X, y);
+                doc.text(materialChoice, col2X, y);
+                y += rowHeight;
+                doc.text("Sleeves:", col1X, y);
+                doc.text(sleeve, col2X, y);
+                y += rowHeight;
+                doc.text("Number:", col1X, y);
+                doc.text(numberVal, col2X, y);
+                y += rowHeight + 10;
+            }
+        }
+
+        // ─── Logos Section (Text) ───
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("Logos", marginX, y);
+        y += 20;
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(14);
+
+        let leftLogoText = document.querySelector("[name='left_logo']") ? document.querySelector("[name='left_logo']").value : "N/A";
+        let rightLogoText = document.querySelector("[name='right_logo']") ? document.querySelector("[name='right_logo']").value : "N/A";
+
+        doc.text("Left Chest Logo (Text):", col1X, y);
+        doc.text(leftLogoText, col2X, y);
+        y += rowHeight;
+        doc.text("Right Chest Logo (Text):", col1X, y);
+        doc.text(rightLogoText, col2X, y);
+        y += rowHeight + 10;
+
+        // ─── Logos Section (Images) ───
+        // Helper: Convert file to Base64 data URL using FileReader
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    resolve(e.target.result);
+                };
+                reader.onerror = function(err) {
+                    reject(err);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Process Left Chest Logo Image from file input
+        let leftLogoInput = document.querySelector("[name='left_chest_logo_image']");
+        if (leftLogoInput && leftLogoInput.files && leftLogoInput.files[0]) {
+            try {
+                let leftLogoDataUrl = await readFileAsDataURL(leftLogoInput.files[0]);
+                doc.text("Left Chest Logo (Image):", col1X, y);
+                // Adjust dimensions as needed (e.g., 80x80)
+                doc.addImage(leftLogoDataUrl, "PNG", col2X, y - 10, 80, 80);
+                y += 90;
+            } catch (err) {
+                console.error("Error loading left logo image:", err);
+            }
+        }
+
+        // Process Right Chest Logo Image from file input
+        let rightLogoInput = document.querySelector("[name='right_chest_logo_image']");
+        if (rightLogoInput && rightLogoInput.files && rightLogoInput.files[0]) {
+            try {
+                let rightLogoDataUrl = await readFileAsDataURL(rightLogoInput.files[0]);
+                doc.text("Right Chest Logo (Image):", col1X, y);
+                doc.addImage(rightLogoDataUrl, "PNG", col2X, y - 10, 80, 80);
+                y += 90;
+            } catch (err) {
+                console.error("Error loading right logo image:", err);
+            }
+        }
+
+        // ─── Save the PDF ───
+        doc.save("Jersey_Order_Details.pdf");
+    }
+</script>
+
 
     <script>
         function triggerFileInput(inputId) {
@@ -893,7 +1016,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label class="form-label"><i class="fas fa-user form-icon"></i> Name</label>
-                    <input type="text" class="form-control hover-lift" name="jersey_name[]" placeholder="Enter Name" required>
+                    <input type="text" class="form-control hover-lift" name="name[]" placeholder="Enter Name" required>
                 </div>
             </div>
             <div class="col-md-3">
