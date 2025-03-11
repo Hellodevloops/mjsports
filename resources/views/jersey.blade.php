@@ -660,175 +660,377 @@
             doc.save('order-details.pdf');
         }
     </script>
-  <script>
+ <script>
     async function downloadFormData() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'pt', 'a4');
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');
 
-        let pageWidth = doc.internal.pageSize.getWidth();
-        let y = 40;
-        let marginX = 30;
+    // Page dimensions
+    let pageWidth = doc.internal.pageSize.getWidth();
+    let pageHeight = doc.internal.pageSize.getHeight();
+    let marginX = 40;
+    let y = 50;
 
-        // ─── Document Title ───
+    // Colors
+    const primaryColor = [0, 75, 135]; // Deep blue
+    const secondaryColor = [80, 80, 80]; // Dark gray
+    const accentColor = [255, 127, 0]; // Orange
+
+    // ─── Header with Styling ───
+    // Header background
+    doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.rect(0, 0, pageWidth, 90, 'F');
+
+    // Header text
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.text("JERSEY ORDER CONFIRMATION", pageWidth / 2, 45, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text("Generated on: " + new Date().toLocaleDateString(), pageWidth / 2, 65, { align: "center" });
+
+    y = 120;
+
+    // ─── Section: Personal Information ───
+    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Personal Information", marginX, y);
+
+    // Underline for section
+    doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
+    doc.setLineWidth(1.5);
+    doc.line(marginX, y + 5, 220, y + 5);
+    y += 30;
+
+    // Content
+    doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+
+    let firstName = document.querySelector("[name='first_name']")?.value || "N/A";
+    let lastName = document.querySelector("[name='last_name']")?.value || "N/A";
+    let email = document.querySelector("[name='email']")?.value || "N/A";
+    let mobile = document.querySelector("[name='mobile_number']")?.value || "N/A";
+
+    // Two column layout for personal info
+    doc.setFont("helvetica", "bold");
+    doc.text("First Name:", marginX, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(firstName, marginX + 80, y);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Last Name:", marginX + 220, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(lastName, marginX + 300, y);
+    y += 25;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Email:", marginX, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(email, marginX + 80, y);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Mobile:", marginX + 220, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(mobile, marginX + 300, y);
+    y += 40;
+
+    // ─── Section: Team Details ───
+    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Team Details", marginX, y);
+
+    // Underline for section
+    doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
+    doc.line(marginX, y + 5, 170, y + 5);
+    y += 30;
+
+    // Content
+    doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+    doc.setFontSize(11);
+
+    let teamName = document.querySelector("[name='team_name']")?.value || "N/A";
+    let patterns = document.querySelector("[name='patterns']")?.value || "N/A";
+
+    // Team info in a light box
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(marginX - 10, y - 15, pageWidth - 2 * marginX + 20, 50, 3, 3, 'F');
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Team Name:", marginX, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(teamName, marginX + 80, y);
+    y += 25;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Pattern Choice:", marginX, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(patterns, marginX + 100, y);
+    y += 40;
+
+    // ─── Section: Special Instructions ───
+    let specialInstructions = document.querySelector("[name='special_instructions']")?.value || "N/A";
+
+    if (specialInstructions !== "N/A" && specialInstructions.trim() !== "") {
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(22);
-        doc.text("Jersey Order Confirmation", pageWidth / 2, y, { align: "center" });
-        doc.line(marginX, y + 8, pageWidth - marginX, y + 8);
-        y += 30;
-
         doc.setFontSize(16);
-        doc.text("Personal Information", marginX, y);
-        y += 20;
-        doc.setFontSize(12);
+        doc.text("Special Instructions", marginX, y);
 
-        // ─── Personal Information ───
-        let firstName = document.querySelector("[name='first_name']")?.value || "N/A";
-        let lastName = document.querySelector("[name='last_name']")?.value || "N/A";
-        let email = document.querySelector("[name='email']")?.value || "N/A";
-        let mobile = document.querySelector("[name='mobile_number']")?.value || "N/A";
+        // Underline for section
+        doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
+        doc.line(marginX, y + 5, 200, y + 5);
+        y += 25;
 
-        doc.text(`First Name: ${firstName}`, marginX, y);
-        y += 20;
-        doc.text(`Last Name: ${lastName}`, marginX, y);
-        y += 20;
-        doc.text(`Email: ${email}`, marginX, y);
-        y += 20;
-        doc.text(`Mobile Number: ${mobile}`, marginX, y);
-        y += 30;
+        // Special instructions in a box
+        doc.setFillColor(245, 245, 245);
+        doc.roundedRect(marginX - 10, y - 15, pageWidth - 2 * marginX + 20, 60, 3, 3, 'F');
 
-        // ─── Additional Information ───
+        doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+
+        // Handle longer text with wrapping
+        const splitText = doc.splitTextToSize(specialInstructions, pageWidth - 2 * marginX);
+        doc.text(splitText, marginX, y);
+        y += splitText.length * 15 + 20;
+    }
+
+    // ─── Section: Jersey Specifications Table ───
+    let jerseys = document.getElementsByName("name[]");
+    if (jerseys.length > 0) {
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont("helvetica", "bold");
         doc.setFontSize(16);
-        doc.text("Additional Information", marginX, y);
-        y += 20;
-        doc.setFontSize(12);
+        doc.text("Jersey Specifications", marginX, y);
 
-        let teamName = document.querySelector("[name='team_name']")?.value || "N/A";
-        let patterns = document.querySelector("[name='patterns']")?.value || "N/A";
-        let specialInstructions = document.querySelector("[name='special_instructions']")?.value || "N/A";
+        // Underline for section
+        doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
+        doc.line(marginX, y + 5, 210, y + 5);
+        y += 25;
 
-        doc.text(`Team Name: ${teamName}`, marginX, y);
-        y += 20;
-        doc.text(`Pattern Choice: ${patterns}`, marginX, y);
-        y += 20;
-        doc.text(`Special Instructions: ${specialInstructions}`, marginX, y);
-        y += 30;
+        // Table headers
+        doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.rect(marginX - 5, y - 15, pageWidth - 2 * marginX + 10, 25, 'F');
 
-        // ─── Jersey Specifications Table ───
-        let jerseys = document.getElementsByName("name[]");
-        if (jerseys.length > 0) {
-            doc.setFontSize(16);
-            doc.text("Jersey Specifications", marginX, y);
-            y += 20;
-            doc.setFontSize(10);
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
 
-            let headers = [
-                "Total Members",
-                "Player Name",
-                "Jersey Size",
-                "Material Type",
-                "Sleeve Length",
-                "Player Number"
-            ];
-            let colWidths = [100, 80, 80, 100, 100, 80];
-
-            let x = marginX;
-            headers.forEach((header, i) => {
-                doc.text(header, x, y);
-                x += colWidths[i];
-            });
-            y += 10;
-            doc.line(marginX, y, pageWidth - marginX, y);
-            y += 10;
-
-            let sizes = document.getElementsByName("jersey_size[]");
-            let materials = document.getElementsByName("material_choice[]");
-            let sleeves = document.getElementsByName("sleeves[]");
-            let numbers = document.getElementsByName("number[]");
-
-            for (let i = 0; i < jerseys.length; i++) {
-                let rowX = marginX;
-                let rowData = [
-                    (i + 1).toString(),
-                    jerseys[i]?.value || "N/A",
-                    sizes[i]?.value || "N/A",
-                    materials[i]?.value || "N/A",
-                    sleeves[i]?.value || "N/A",
-                    numbers[i]?.value || "N/A",
-                ];
-
-                rowData.forEach((text, j) => {
-                    doc.text(text, rowX, y);
-                    rowX += colWidths[j];
-                });
-
-                y += 15;
-                if (y > 750) {
-                    doc.addPage();
-                    y = 40;
-                }
-            }
-            y += 30;
-        }
-
-        // ─── Logo Details ───
-        doc.setFontSize(16);
-        doc.text("Logo Details", marginX, y);
-        y += 20;
-        doc.setFontSize(12);
-
-        let leftLogoText = document.querySelector("[name='left_logo']")?.value || "N/A";
-        let rightLogoText = document.querySelector("[name='right_logo']")?.value || "N/A";
-
-        doc.text("Left Chest Logo (Text):", marginX, y);
-        doc.text(leftLogoText, marginX + 150, y);
-        y += 20;
-
-        doc.text("Right Chest Logo (Text):", marginX, y);
-        doc.text(rightLogoText, marginX + 150, y);
-        y += 30;
-
-        // ─── Convert Images to Base64 ───
-        function readFileAsDataURL(file) {
-            return new Promise((resolve, reject) => {
-                let reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        let leftLogoInput = document.querySelector("[name='left_chest_logo_image']");
-        let rightLogoInput = document.querySelector("[name='right_chest_logo_image']");
-
-        let imagePromises = [
-            leftLogoInput?.files[0] ? readFileAsDataURL(leftLogoInput.files[0]) : null,
-            rightLogoInput?.files[0] ? readFileAsDataURL(rightLogoInput.files[0]) : null
+        let headers = [
+            "#",
+            "Player Name",
+            "Jersey Size",
+            "Material",
+            "Sleeve Length",
+            "Number"
         ];
 
-        let [leftLogoDataUrl, rightLogoDataUrl] = await Promise.all(imagePromises);
+        let colWidths = [30, 120, 75, 85, 85, 60];
+        let x = marginX;
 
-        if (leftLogoDataUrl) {
-            doc.text("Left Chest Logo (Image):", marginX, y);
-            doc.addImage(leftLogoDataUrl, "PNG", marginX + 150, y - 10, 80, 80);
-            y += 90;
-        } else {
-            doc.text("Left Chest Logo: N/A", marginX, y);
-            y += 20;
+        headers.forEach((header, i) => {
+            doc.text(header, x, y);
+            x += colWidths[i];
+        });
+        y += 20;
+
+        // Table rows
+        doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+        doc.setFont("helvetica", "normal");
+
+        let sizes = document.getElementsByName("jersey_size[]");
+        let materials = document.getElementsByName("material_choice[]");
+        let sleeves = document.getElementsByName("sleeves[]");
+        let numbers = document.getElementsByName("number[]");
+
+        // Zebra striping for table rows
+        for (let i = 0; i < jerseys.length; i++) {
+            // Alternate row background
+            if (i % 2 === 0) {
+                doc.setFillColor(245, 245, 245);
+                doc.rect(marginX - 5, y - 15, pageWidth - 2 * marginX + 10, 25, 'F');
+            }
+
+            let rowX = marginX;
+            let rowData = [
+                (i + 1).toString(),
+                jerseys[i]?.value || "N/A",
+                sizes[i]?.value || "N/A",
+                materials[i]?.value || "N/A",
+                sleeves[i]?.value || "N/A",
+                numbers[i]?.value || "N/A",
+            ];
+
+            rowData.forEach((text, j) => {
+                doc.text(text, rowX, y);
+                rowX += colWidths[j];
+            });
+
+            y += 25;
+
+            // Check if we need a new page
+            if (y > pageHeight - 60) {
+                doc.addPage();
+
+                // Add header to new page
+                doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+                doc.rect(0, 0, pageWidth, 40, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(14);
+                doc.text("JERSEY ORDER CONFIRMATION (continued)", pageWidth / 2, 25, { align: "center" });
+
+                y = 70;
+            }
         }
 
-        if (rightLogoDataUrl) {
-            doc.text("Right Chest Logo (Image):", marginX, y);
-            doc.addImage(rightLogoDataUrl, "PNG", marginX + 150, y - 10, 80, 80);
-            y += 90;
-        } else {
-            doc.text("Right Chest Logo: N/A", marginX, y);
-            y += 20;
-        }
+        // Border around the entire table
+        doc.setDrawColor(200, 200, 200);
+        doc.setLineWidth(0.5);
+        let tableHeight = jerseys.length * 25 + 25;
+        doc.rect(marginX - 5, y - tableHeight - 15, pageWidth - 2 * marginX + 10, tableHeight, 'S');
 
-        // ─── Save the PDF ───
-        doc.save("Jersey_Order_Details.pdf");
+        y += 20;
     }
-</script>
+
+    // Check if we need a new page for logo section
+    if (y > pageHeight - 200) {
+        doc.addPage();
+
+        // Add header to new page
+        doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.rect(0, 0, pageWidth, 40, 'F');
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14);
+        doc.text("JERSEY ORDER CONFIRMATION (continued)", pageWidth / 2, 25, { align: "center" });
+
+        y = 70;
+    }
+
+    // ─── Section: Logo Details ───
+    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Logo Details", marginX, y);
+
+    // Underline for section
+    doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
+    doc.line(marginX, y + 5, 150, y + 5);
+    y += 30;
+
+    // Content
+    doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+    doc.setFontSize(11);
+
+    let leftLogoText = document.querySelector("[name='left_logo']")?.value || "N/A";
+    let rightLogoText = document.querySelector("[name='right_logo']")?.value || "N/A";
+
+    // Left logo box
+    doc.setFillColor(245, 245, 245);
+    doc.roundedRect(marginX - 5, y - 15, (pageWidth - 2 * marginX) / 2 - 5, 100, 3, 3, 'F');
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Left Chest Logo", marginX, y);
+    y += 20;
+
+    doc.setFont("helvetica", "normal");
+    if (leftLogoText !== "N/A" && leftLogoText.trim() !== "") {
+        doc.text("Text: " + leftLogoText, marginX + 10, y);
+    } else {
+        doc.text("Text: None provided", marginX + 10, y);
+    }
+
+    // Right logo box (positioned to the right)
+    let rightBoxX = marginX + (pageWidth - 2 * marginX) / 2 + 10;
+
+    doc.setFillColor(245, 245, 245);
+    doc.roundedRect(rightBoxX - 5, y - 35, (pageWidth - 2 * marginX) / 2 - 5, 100, 3, 3, 'F');
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Right Chest Logo", rightBoxX, y - 20);
+
+    doc.setFont("helvetica", "normal");
+    if (rightLogoText !== "N/A" && rightLogoText.trim() !== "") {
+        doc.text("Text: " + rightLogoText, rightBoxX + 10, y);
+    } else {
+        doc.text("Text: None provided", rightBoxX + 10, y);
+    }
+
+    y += 25;
+
+    // ─── Convert Images to Base64 ───
+    function readFileAsDataURL(file) {
+        return new Promise((resolve, reject) => {
+            let reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    let leftLogoInput = document.querySelector("[name='left_chest_logo_image']");
+    let rightLogoInput = document.querySelector("[name='right_chest_logo_image']");
+
+    let imagePromises = [
+        leftLogoInput?.files[0] ? readFileAsDataURL(leftLogoInput.files[0]) : null,
+        rightLogoInput?.files[0] ? readFileAsDataURL(rightLogoInput.files[0]) : null
+    ];
+
+    let [leftLogoDataUrl, rightLogoDataUrl] = await Promise.all(imagePromises);
+
+    if (leftLogoDataUrl) {
+        try {
+            doc.addImage(leftLogoDataUrl, "PNG", marginX + 10, y, 70, 70);
+            doc.setDrawColor(200, 200, 200);
+            doc.rect(marginX + 10, y, 70, 70, 'S');
+        } catch (e) {
+            doc.text("Image preview not available", marginX + 10, y + 30);
+        }
+    } else {
+        doc.text("No image uploaded", marginX + 10, y + 30);
+    }
+
+    if (rightLogoDataUrl) {
+        try {
+            doc.addImage(rightLogoDataUrl, "PNG", rightBoxX + 10, y, 70, 70);
+            doc.setDrawColor(200, 200, 200);
+            doc.rect(rightBoxX + 10, y, 70, 70, 'S');
+        } catch (e) {
+            doc.text("Image preview not available", rightBoxX + 10, y + 30);
+        }
+    } else {
+        doc.text("No image uploaded", rightBoxX + 10, y + 30);
+    }
+
+    y += 90;
+
+    // ─── Footer ───
+    let footerY = pageHeight - 30;
+
+    doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setLineWidth(1);
+    doc.line(marginX, footerY - 10, pageWidth - marginX, footerY - 10);
+
+    doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10);
+    doc.text("Thank you for your jersey order! Please keep this document for your records.", pageWidth / 2, footerY, { align: "center" });
+
+    doc.setFontSize(8);
+    doc.text("Page " + doc.internal.getNumberOfPages(), pageWidth - marginX, pageHeight - 10, { align: "right" });
+
+    // ─── Save the PDF ───
+    doc.save("Jersey_Order_Details.pdf");
+}
+ </script>
 
 
 

@@ -43,7 +43,7 @@
       border-radius: 8px;
       overflow: hidden;
     }
-    td {
+    td, th {
       padding: 12px;
       border-bottom: 1px solid #ddd;
     }
@@ -53,11 +53,13 @@
       width: 40%;
       background: #ecf0f1;
     }
-    .logo img {
-      max-width: 120px;
+    .logo-note {
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #e8f4fd;
       border-radius: 5px;
-      display: block;
-      margin: 10px auto;
+      border-left: 4px solid #3498db;
+      font-style: italic;
     }
     .list-container {
       padding: 15px;
@@ -136,30 +138,29 @@
     $jerseySpecs = json_decode($jersey->jersey_specifications, true);
   @endphp
 
-@if(!empty($jerseySpecs))
-<h3>Jersey Specifications</h3>
-<table>
-  <tr>
-    <th>Total Members</th>
-    <th>Name</th>
-    <th>Jersey Size</th>
-    <th>Material Choice</th>
-    <th>Sleeves</th>
-    <th>Number</th>
-  </tr>
-  @foreach($jerseySpecs as $index => $spec)
+  @if(!empty($jerseySpecs))
+  <h3>Jersey Specifications</h3>
+  <table>
     <tr>
-      <td>{{ $index + 1 }}</td>
-      <td>{{ $spec['name'] ?? 'N/A' }}</td>
-      <td>{{ $spec['jersey_size'] ?? 'N/A' }}</td>
-      <td>{{ $spec['material_choice'] ?? 'N/A' }}</td>
-      <td>{{ $spec['sleeves'] ?? 'N/A' }}</td>
-      <td>{{ $spec['number'] ?? 'N/A' }}</td>
+      <th>Total Members</th>
+      <th>Name</th>
+      <th>Jersey Size</th>
+      <th>Material Choice</th>
+      <th>Sleeves</th>
+      <th>Number</th>
     </tr>
-  @endforeach
-</table>
-@endif
-
+    @foreach($jerseySpecs as $index => $spec)
+      <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ $spec['name'] ?? 'N/A' }}</td>
+        <td>{{ $spec['jersey_size'] ?? 'N/A' }}</td>
+        <td>{{ $spec['material_choice'] ?? 'N/A' }}</td>
+        <td>{{ $spec['sleeves'] ?? 'N/A' }}</td>
+        <td>{{ $spec['number'] ?? 'N/A' }}</td>
+      </tr>
+    @endforeach
+  </table>
+  @endif
 
   <h3>Logos</h3>
   <table>
@@ -173,15 +174,6 @@
         @endif
       </td>
     </tr>
-    @if($jersey->left_chest_logo_image)
-    <tr>
-      <td>Left Chest Logo (Image):</td>
-      <td class="logo">
-        <img src="{{ asset('storage/' . $jersey->left_chest_logo_image) }}" alt="Left Chest Logo">
-      </td>
-    </tr>
-    @endif
-
     <tr>
       <td>Right Chest Logo (Text):</td>
       <td>
@@ -192,15 +184,13 @@
         @endif
       </td>
     </tr>
-    @if($jersey->right_chest_logo_image)
-    <tr>
-      <td>Right Chest Logo (Image):</td>
-      <td class="logo">
-        <img src="{{ asset('storage/' . $jersey->right_chest_logo_image) }}" alt="Right Chest Logo">
-      </td>
-    </tr>
-    @endif
   </table>
+
+  @if($jersey->left_chest_logo_image || $jersey->right_chest_logo_image)
+  <div class="logo-note">
+    <p><strong>Note:</strong> The logo images you uploaded have been attached to this email. Please check the email attachments to view them.</p>
+  </div>
+  @endif
 </div>
 </body>
 </html>

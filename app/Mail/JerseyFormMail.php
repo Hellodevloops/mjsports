@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Jersey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,24 +12,26 @@ class JerseyFormMail extends Mailable
     use Queueable, SerializesModels;
 
     public $jersey;
-    public $pdf;
 
-    public function __construct($jersey, $pdf)
+    /**
+     * Create a new message instance.
+     *
+     * @param  \App\Models\Jersey  $jersey
+     * @return void
+     */
+    public function __construct(Jersey $jersey)
     {
         $this->jersey = $jersey;
-        $this->pdf = $pdf;
     }
 
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
         return $this->view('emails.jersey_form_mail')
-                    ->with([
-                        'jersey' => $this->jersey,
-                        'personalInfo' => json_decode($this->jersey->personal_info, true),
-                        'jerseySpecs' => json_decode($this->jersey->jersey_specifications, true),
-                    ])
-                    ->attachData($this->pdf->output(), 'Jersey_Order.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
+                    ->subject('New Jersey Order Form Submission');
     }
 }
