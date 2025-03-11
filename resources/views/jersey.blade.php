@@ -20,27 +20,16 @@
         href="/css/app-wa-9a26f71a0382097754e89a94b43cf564.css?vsn=d">
 
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-duotone-thin.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-duotone-solid.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-duotone-regular.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-duotone-light.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-thin.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-solid.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-regular.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-light.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/duotone-thin.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/duotone-regular.css">
-
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/duotone-light.css">
 
     <!-- IcoFont CSS -->
@@ -219,6 +208,110 @@
             display: none;
             margin-top: 0.5rem;
         }
+
+        /* Mobile-Friendly Adjustments */
+        @media (max-width: 767.98px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .row > [class*="col-md-"] {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .form-control,
+            .form-select {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .form-label {
+                font-size: 0.85rem;
+            }
+
+            .section-header {
+                font-size: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section-header::after {
+                width: 40px;
+                height: 3px;
+            }
+
+            .btn-custom {
+                padding: 0.6rem 1.5rem;
+                font-size: 1rem;
+                width: 100%;
+            }
+
+            .upload-zone {
+                padding: 1rem;
+            }
+
+            .upload-icon {
+                font-size: 1.5rem;
+            }
+
+            .preview-image {
+                max-height: 100px;
+            }
+
+            /* Enhanced Table Responsiveness */
+            .table-responsive {
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+            }
+
+            .jersey-entry {
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+                border: 1px solid #dee2e6;
+                border-radius: 0.375rem;
+                padding: 0.5rem;
+            }
+
+            .jersey-entry td {
+                display: block;
+                width: 100%;
+                padding: 0.5rem 0;
+                border: none;
+            }
+
+            .jersey-entry td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: var(--primary-color);
+                margin-right: 0.5rem;
+            }
+
+            .jersey-entry td:nth-child(1):before { content: "Name: "; }
+            .jersey-entry td:nth-child(2):before { content: "Jersey Size: "; }
+            .jersey-entry td:nth-child(3):before { content: "Material Choice: "; }
+            .jersey-entry td:nth-child(4):before { content: "Sleeves: "; }
+            .jersey-entry td:nth-child(5):before { content: "Number: "; }
+
+            #jersey-specifications-table thead {
+                display: none; /* Hide header on mobile */
+            }
+
+            #jersey-specifications-table {
+                border: none;
+            }
+        }
+
+        /* Desktop Table Styling */
+        @media (min-width: 768px) {
+            .jersey-entry td {
+                padding: 0.75rem;
+            }
+        }
     </style>
 </head>
 
@@ -246,12 +339,10 @@
                         </div>
                         <!-- end of user information menu -->
                     </div>
-
                 </div>
             </div>
         </div>
         <!-- end of header top nav -->
-
 
         <!-- header navigation menu -->
         <nav class="header-navigation black-bg">
@@ -267,27 +358,22 @@
                             <!-- end of logo -->
                         </div>
                         <div class="col-lg-9 col-md-12 my-auto">
-
                             <!-- Header navigation right side-->
-
                             <!-- main menu start -->
                             <div class="main-menu">
                                 <nav>
-                                    <ul class="" >
-                                        <li class="active "><a href="{{ route('home') }}">Home</a> </li>
+                                    <ul class="">
+                                        <li class="active"><a href="{{ route('home') }}">Home</a></li>
                                         <li><a href="{{ route('about') }}">About</a></li>
                                         <li><a href="{{ route('jersey') }}">Custom Jersey</a></li>
-                                        <!-- <li class=""><a href="shop.html">Shop</a> </li> -->
-                                        <li class=""><a href="{{ route('blog.index') }}">Blog</a></li>
-                                        <li class=""><a href="{{ route('contact') }}">Contact</a></li>
+                                        <!-- <li class=""><a href="shop.html">Shop</a></li> -->
+                                        <li><a href="{{ route('blog.index') }}">Blog</a></li>
+                                        <li><a href="{{ route('contact') }}">Contact</a></li>
                                     </ul>
                                 </nav>
-
                                 <!-- Mobile Menu -->
                                 <div class="mobile-menu order-12 d-block col d-lg-none"></div>
-
                             </div>
-
                             <!-- end of Header navigation right side-->
                         </div>
                     </div>
@@ -295,7 +381,6 @@
             </div>
         </nav>
         <!-- end of header navigation menu -->
-
     </header>
     <!--====  End of Header   ====-->
 
@@ -309,141 +394,134 @@
         <!-- Main Form Section -->
         <div class="card rounded-4 p-4 p-md-5">
             @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
 
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+            <form id="order-form" method="POST" action="{{ route('jerseys.store') }}" enctype="multipart/form-data">
+                @csrf
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-        <form id="order-form" method="POST" action="{{ route('jerseys.store') }}" enctype="multipart/form-data">
-            @csrf
-
-            <!-- Personal Information Section -->
-           <!-- Personal Information Section -->
-           <div class="container">
-            <div class="card p-4 shadow-sm">
-                <h3 class="section-header">Personal Information</h3>
-
-                <div id="personal-info-section">
-                    <div class="row g-4 personal-entry">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
-                                <input type="text" class="form-control hover-lift" name="first_name"
-                                    value="{{ old('first_name') }}" placeholder="Enter your first name" required>
-                                @error('first_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                <!-- Personal Information Section -->
+                <div class="container">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="section-header">Personal Information</h3>
+                        <div id="personal-info-section">
+                            <div class="row g-4 personal-entry">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-user form-icon"></i> First Name</label>
+                                        <input type="text" class="form-control hover-lift" name="first_name"
+                                            value="{{ old('first_name') }}" placeholder="Enter your first name" required>
+                                        @error('first_name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
+                                        <input type="text" class="form-control hover-lift" name="last_name"
+                                            value="{{ old('last_name') }}" placeholder="Enter your last name" required>
+                                        @error('last_name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
+                                        <input type="email" class="form-control hover-lift" name="email"
+                                            value="{{ old('email') }}" placeholder="your@email.com" required>
+                                        @error('email')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
+                                        <input type="tel" class="form-control hover-lift" name="mobile_number"
+                                            value="{{ old('mobile_number') }}" placeholder="Enter your mobile number" required>
+                                        @error('mobile_number')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label"><i class="fas fa-user form-icon"></i> Last Name</label>
-                                <input type="text" class="form-control hover-lift" name="last_name"
-                                    value="{{ old('last_name') }}" placeholder="Enter your last name" required>
-                                @error('last_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label"><i class="fas fa-envelope form-icon"></i> Email</label>
-                                <input type="email" class="form-control hover-lift" name="email"
-                                    value="{{ old('email') }}" placeholder="your@email.com" required>
-                                @error('email')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
-                                <input type="tel" class="form-control hover-lift" name="mobile_number"
-                                    value="{{ old('mobile_number') }}" placeholder="Enter your mobile number" required>
-                                @error('mobile_number')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        <!-- Add More Personal Info Button -->
+                        {{-- <button type="button" class="btn btn-outline-primary mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addPersonalInfo()">
+                            <i class="fas fa-user-plus me-2"></i> Add More Personal Info
+                        </button> --}}
                     </div>
                 </div>
 
-                <!-- Add More Personal Info Button -->
-                {{-- <button type="button" class="btn btn-outline-primary mt-3 px-4 py-2 shadow-sm rounded-pill" onclick="addPersonalInfo()">
-                    <i class="fas fa-user-plus me-2"></i> Add More Personal Info
-                </button> --}}
-            </div>
-            </div>
-
-
-            <!-- Jersey Details Section -->
-            <div class="container">
-                <div class="card p-4 shadow-sm">
-                    <h3 class="section-header">Jersey Specifications</h3>
-                    <table class="table table-bordered" id="jersey-specifications-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Jersey Size</th>
-                                <th>Material Choice</th>
-                                <th>Sleeves</th>
-                                <th>Number</th>
-                            </tr>
-                        </thead>
-                        <tbody id="jersey-specifications">
-                            <tr class="jersey-entry">
-                                <td>
-                                    <input type="text" class="form-control hover-lift" name="name[]" placeholder="Enter Name" required>
-                                </td>
-                                <td>
-                                    <select class="form-select hover-lift" name="jersey_size[]" required>
-                                        <option value="S">Small</option>
-                                        <option value="M">Medium</option>
-                                        <option value="L">Large</option>
-                                        <option value="XL">X-Large</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-select hover-lift" name="material_choice[]" required>
-                                        <option value="polyester">Premium Polyester</option>
-                                        <option value="nylon">Performance Nylon</option>
-                                        <option value="spandex">Elite Spandex</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-select hover-lift" name="sleeves[]" required>
-                                        <option value="half">Half Sleeves</option>
-                                        <option value="full">Full Sleeves</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control hover-lift" name="number[]" placeholder="Enter Number">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <!-- Moved Add Button Below the Table -->
-                    <div class="mt-3">
-                        <button type="button" onclick="addJerseySpec()" class="btn btn-primary">+ Add More</button>
+                <!-- Jersey Details Section -->
+                <div class="container">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="section-header">Jersey Specifications</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="jersey-specifications-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Jersey Size</th>
+                                        <th>Material Choice</th>
+                                        <th>Sleeves</th>
+                                        <th>Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="jersey-specifications">
+                                    <tr class="jersey-entry" data-index="0">
+                                        <td data-label="Name">
+                                            <input type="text" class="form-control hover-lift" name="name[]" placeholder="Enter Name" required>
+                                        </td>
+                                        <td data-label="Jersey Size">
+                                            <select class="form-select hover-lift" name="jersey_size[]" required>
+                                                <option value="S">Small</option>
+                                                <option value="M">Medium</option>
+                                                <option value="L">Large</option>
+                                                <option value="XL">X-Large</option>
+                                            </select>
+                                        </td>
+                                        <td data-label="Material Choice">
+                                            <select class="form-select hover-lift" name="material_choice[]" required>
+                                                <option value="polyester">Premium Polyester</option>
+                                                <option value="nylon">Performance Nylon</option>
+                                                <option value="spandex">Elite Spandex</option>
+                                            </select>
+                                        </td>
+                                        <td data-label="Sleeves">
+                                            <select class="form-select hover-lift" name="sleeves[]" required>
+                                                <option value="half">Half Sleeves</option>
+                                                <option value="full">Full Sleeves</option>
+                                            </select>
+                                        </td>
+                                        <td data-label="Number">
+                                            <input type="number" class="form-control hover-lift" name="number[]" placeholder="Enter Number">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Moved Add Button Below the Table -->
+                        <div class="mt-3">
+                            <button type="button" onclick="addJerseySpec()" class="btn btn-primary">+ Add More</button>
+                        </div>
                     </div>
                 </div>
-
-
 
                 <!-- Logo Upload Section -->
                 <div class="card p-4 mt-4 shadow-sm">
                     <h4 class="mb-3">Logo Details</h4>
-
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -453,21 +531,19 @@
                                 <input type="text" class="form-control hover-lift" name="left_logo"
                                     value="{{ old('left_logo') }}" placeholder="Enter left chest logo details">
                                 @error('left_logo')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <div class="form-group mt-2">
                                 <label class="form-label">
                                     <i class="fas fa-upload form-icon"></i> Upload Left Chest Logo (Image)
                                 </label>
                                 <input type="file" class="form-control hover-lift" name="left_chest_logo_image" accept="image/*">
                                 @error('left_chest_logo_image')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">
@@ -476,71 +552,64 @@
                                 <input type="text" class="form-control hover-lift" name="right_logo"
                                     value="{{ old('right_logo') }}" placeholder="Enter right chest logo details">
                                 @error('right_logo')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <div class="form-group mt-2">
                                 <label class="form-label">
                                     <i class="fas fa-upload form-icon"></i> Upload Right Chest Logo (Image)
                                 </label>
                                 <input type="file" class="form-control hover-lift" name="right_chest_logo_image" accept="image/*">
                                 @error('right_chest_logo_image')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-            <!-- Additional Information -->
-            <div class="field-group">
-                <h3 class="section-header">Additional Information</h3>
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-font form-icon"></i>Team Name</label>
-                    <input type="text" class="form-control hover-lift" name="team_name"
-                        value="{{ old('team_name') }}" placeholder="Enter name or team name">
-                    @error('team_name')
+                <!-- Additional Information -->
+                <div class="field-group">
+                    <h3 class="section-header">Additional Information</h3>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-font form-icon"></i>Team Name</label>
+                        <input type="text" class="form-control hover-lift" name="team_name"
+                            value="{{ old('team_name') }}" placeholder="Enter name or team name">
+                        @error('team_name')
                         <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-shapes form-icon"></i> Choose Your Pattern
-                        <a href="{{ asset('almighty.pdf') }}" target="_blank">(View Patterns)</a>
-                    </label>
-                    <input type="text" class="form-control hover-lift" name="patterns"
-                        value="{{ old('patterns') }}" placeholder="Input the pattern number here">
-                    @error('patterns')
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-shapes form-icon"></i> Choose Your Pattern
+                            <a href="{{ asset('almighty.pdf') }}" target="_blank">(View Patterns)</a>
+                        </label>
+                        <input type="text" class="form-control hover-lift" name="patterns"
+                            value="{{ old('patterns') }}" placeholder="Input the pattern number here">
+                        @error('patterns')
                         <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-message form-icon"></i>Special Instructions</label>
-                    <textarea class="form-control hover-lift" name="special_instructions" rows="4"
-                        placeholder="Enter any special instructions for the tailor...">{{ old('special_instructions') }}</textarea>
-                    @error('special_instructions')
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-message form-icon"></i>Special Instructions</label>
+                        <textarea class="form-control hover-lift" name="special_instructions" rows="4"
+                            placeholder="Enter any special instructions for the tailor...">{{ old('special_instructions') }}</textarea>
+                        @error('special_instructions')
                         <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                        @enderror
+                    </div>
                 </div>
-            </div>
 
-            <!-- Submit Button -->
-            <div class="text-end">
-                <button type="submit" class="btn btn-custom btn-lg" onclick="downloadFormData()">
-                    <i class="fas fa-download me-2"></i>Save and Download
-                </button>
-                {{-- <button type="button" class="btn btn-custom btn-lg" onclick="downloadFormData()">
-                    <i class="fas fa-download me-2"></i>Download PDF
-                </button> --}}
-            </div>
-        </form>
-
-
-
+                <!-- Submit Button -->
+                <div class="text-end">
+                    <button type="submit" class="btn btn-custom btn-lg" onclick="downloadFormData()">
+                        <i class="fas fa-download me-2"></i>Save and Download
+                    </button>
+                    {{-- <button type="button" class="btn btn-custom btn-lg" onclick="downloadFormData()">
+                        <i class="fas fa-download me-2"></i>Download PDF
+                    </button> --}}
+                </div>
+            </form>
         </div>
     </div>
 
@@ -553,27 +622,27 @@
             <!-- footer navigation -->
             <div class="footer-navigation section-padding">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 ">
+                    <div class="col-lg-4 col-md-4">
                         <!-- footer description -->
                         <div class="footer-description">
                             <div class="footer-logo text-center">
                                 <img width="167" height="69" src="assets/images/logo-mj.png" alt="">
                             </div>
                             <div class="text-center">
-                                <p class="text-wrap mb-1 "><i class="fa fa-phone"></i> 08141273565 <span
-                                        class="separator"></span> </p>
-                                <p class="text-wrap mb-1 "><i class="fa fa-location-dot"></i> GF-10, Kanha Dreams, Opp.
+                                <p class="text-wrap mb-1"><i class="fa fa-phone"></i> 08141273565 <span
+                                        class="separator"></span></p>
+                                <p class="text-wrap mb-1"><i class="fa fa-location-dot"></i> GF-10, Kanha Dreams, Opp.
                                     Lakulesh-1, Ajwa Rd,
                                     Kamlanagar, Vadodara, Gujarat 390019<span class="separator"></span>
                                 </p>
-                                <p class="text-wrap mb-1 "> <i class="fa-solid fa-envelope"></i> Mjsports@gmail.com</p>
+                                <p class="text-wrap mb-1"><i class="fa-solid fa-envelope"></i> Mjsports@gmail.com</p>
                             </div>
                         </div>
                         <!-- end of footer description -->
                     </div>
                     <div class="col-lg-8 col-md-8">
                         <!-- footer nav links -->
-                        <div class="row ">
+                        <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <!-- single footer nav block -->
                                 <div class="single-footer-nav-block">
@@ -582,7 +651,7 @@
                                         <li><a href="index.html">Home</a></li>
                                         <li><a href="about.html">About US</a></li>
                                         <li><a href="shop.html">Shop</a></li>
-                                        <li><a href="blog.html">blog</a></li>
+                                        <li><a href="blog.html">Blog</a></li>
                                     </ul>
                                 </div>
                                 <!-- end of single footer nav block -->
@@ -615,7 +684,6 @@
                             </div> --}}
                         </div>
                         <!-- end of footer nav links -->
-
                     </div>
                 </div>
             </div>
@@ -626,7 +694,7 @@
                 <div class="copyright-container">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <p class="copyright-text text-center text-md-start">Copyright &copy; 2025 <a
+                            <p class="copyright-text text-center text-md-start">Copyright © 2025 <a
                                     href="#">Devloops</a>.
                                 All Rights Reserved</p>
                         </div>
@@ -643,7 +711,6 @@
     </footer>
 
     <!--====  End of footer  ====-->
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1199,7 +1266,6 @@
   tableBody.appendChild(newRow);
 }
 </script>
-
 </body>
 
 </html>
