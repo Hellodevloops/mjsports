@@ -187,7 +187,7 @@ public function store(Request $request)
         'first_name' => 'string|max:15|nullable',
         'last_name' => 'string|max:255|nullable',
         'email' => 'email|max:255|nullable',
-        'mobile_number' => 'string|max:15|nullable',
+        'mobile_number' => 'string|max:10|nullable',
 
         // Jersey Specifications
         'jersey_size' => 'array',
@@ -263,7 +263,7 @@ public function store(Request $request)
 
         // Send email with PDF and logo image attachments
         Mail::send('emails.jersey_form_mail', ['jersey' => $jersey], function ($message) use ($jersey, $pdf, $leftLogoFile, $rightLogoFile) {
-            $message->to('24riyavaidya@gmail.com')
+            $message->to(config('app.mail_to'))
                     ->subject('New Jersey Order Form Submission');
 
             // Attach the PDF

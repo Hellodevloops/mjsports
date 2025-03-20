@@ -449,12 +449,14 @@
                                     <div class="form-group">
                                         <label class="form-label"><i class="fas fa-phone form-icon"></i> Mobile Number</label>
                                         <input type="tel" class="form-control hover-lift" name="mobile_number"
-                                            value="{{ old('mobile_number') }}" placeholder="Enter your mobile number" required>
+                                            value="{{ old('mobile_number') }}" placeholder="Enter your mobile number"
+                                            pattern="[0-9]{10}" maxlength="10" required>
                                         @error('mobile_number')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <!-- Add More Personal Info Button -->
